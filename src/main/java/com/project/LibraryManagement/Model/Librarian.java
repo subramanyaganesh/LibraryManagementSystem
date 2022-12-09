@@ -25,7 +25,6 @@ public class Librarian {
     @Column(name = "address", length = 250, nullable = false)
     String address;
     @JsonIgnore
-    @Transient
     @Column(name = "password", length = 250, nullable = false)
     String password;
     @Column(name = "firstName", length = 250, nullable = false)
@@ -42,5 +41,12 @@ public class Librarian {
             cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Member> members;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "librarians_roles",
+            joinColumns = @JoinColumn(name = "librarian_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+    private Collection<Role> roles;
 
 }

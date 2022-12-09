@@ -21,7 +21,7 @@ public class AuthorService {
     }
 
     public List<Book> getAllBooksByAuthorId(Long id){
-       Author author= authorRepository.findById(id).orElse(null);
+       Author author= authorRepository.findbyid(id).orElse(null);
        if (author!=null){
            return new ArrayList<>(author.getBooks());
        }

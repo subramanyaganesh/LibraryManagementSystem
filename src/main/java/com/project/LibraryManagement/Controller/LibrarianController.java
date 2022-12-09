@@ -22,7 +22,7 @@ public class LibrarianController {
         return "index";
     }
 
-    @GetMapping(value = {"/getLibrarians"})
+    @GetMapping(value = {"/getLibrarian"})
     public List<Librarian> getLibrarianList() {
         return librarianService.getAllLibrarians();
     }

@@ -39,8 +39,12 @@ public class Member {
     @JsonIgnore
     private Librarian librarian;
 
-    /*@OneToOne
-    private TransactionDetails transactionDetails;*/
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "member_roles",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+    private Collection<Role> roles;
 
 
 }

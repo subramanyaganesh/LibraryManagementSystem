@@ -20,18 +20,18 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping(value = {"/getMembers"})
+    @GetMapping(value = {"/librarian/getMembers"})
     public List<Member> getMembersList() {
         return memberService.getAllMembers();
     }
 
 
-    @PostMapping(value = {"/postMembers"})
+    @PostMapping(value = {"/librarian/postMembers"})
     public ResponseEntity<String> putMember(@RequestBody Member member) {
         return memberService.registerNewMember(member);
     }
 
-    @DeleteMapping(value = "/deleteMembers/{member_id}")
+    @DeleteMapping(value = "/librarian/deleteMembers/{member_id}")
     public void deleteMember(@PathVariable("member_id") Long id) {
         memberService.deleteMember(id);
     }

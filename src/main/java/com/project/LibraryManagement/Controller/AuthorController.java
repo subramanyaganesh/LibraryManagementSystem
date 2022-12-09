@@ -20,7 +20,7 @@ public class AuthorController {
         return authorService.getAllAuthors();
     }
 
-    @GetMapping(value = {"/getAllBooksBy/{authorId}"})
+    @GetMapping(value = {"/getAllBooksByAuthorId/{authorId}"})
     public List<Book> getBooksByAuthorId(@PathVariable("authorId") Long id) {
         return authorService.getAllBooksByAuthorId(id);
     }
@@ -31,3 +31,4 @@ public class AuthorController {
     
 
 }
+
