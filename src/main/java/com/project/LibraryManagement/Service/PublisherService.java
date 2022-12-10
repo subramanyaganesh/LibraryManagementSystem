@@ -27,8 +27,8 @@ public class PublisherService {
         return publisherRepository.findByemailId(id);
     }
 
-    public ResponseEntity<String> createPublisher(Publisher magazine) {
-        publisherRepository.save(magazine);
+    public ResponseEntity<String> createPublisher(Publisher publisher) {
+        publisherRepository.save(publisher);
         return new ResponseEntity<>("Successfully added Publisher", HttpStatus.OK);
     }
 

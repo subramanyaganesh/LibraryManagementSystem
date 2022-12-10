@@ -1,18 +1,16 @@
 package com.project.LibraryManagement.Service;
 
-import com.project.LibraryManagement.Model.Author;
-import com.project.LibraryManagement.Model.Book;
-import com.project.LibraryManagement.Model.Location;
-import com.project.LibraryManagement.Model.Writer;
+import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.BookRepository;
-import com.project.LibraryManagement.Repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BookService {
@@ -20,6 +18,8 @@ public class BookService {
     public BookRepository bookRepository;
     @Autowired
     public PublisherService publisherService;
+    @Autowired
+    public AuthorService authorService;
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
@@ -44,8 +44,17 @@ public class BookService {
 
 
     public ResponseEntity<String> createBook(Book book) {
-        if (book.getPublisher() != null && publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty())
+        Optional<Publisher> publisher;
+        Set<Author> authorSet = new HashSet<>();
+        if ((publisher = publisherService.getPublishersByEmail(book.getPublisher().getEmailId())).isEmpty())
             publisherService.createPublisher(book.getPublisher());
+        else book.setPublisher(publisher.get());
+        book.getAuthorSet().forEach(author -> {
+            Optional<Author> author1;
+            if ((author1 = authorService.getAuthorByEmail(author.getEmailId())).isPresent())
+                authorSet.add(author1.get());
+        });
+        book.setAuthorSet(authorSet);
         bookRepository.save(book);
         return new ResponseEntity<>("Successfully added Book", HttpStatus.OK);
     }

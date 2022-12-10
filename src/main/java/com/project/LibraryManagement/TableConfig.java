@@ -23,6 +23,8 @@ public class TableConfig {
     @Autowired
     private ThesisService thesisService;
     @Autowired
+    private PublisherService publisherService;
+    @Autowired
     private TechnicalReportService technicalReportService;
     @Autowired
     private JournalService journalService;
@@ -69,7 +71,7 @@ public class TableConfig {
             Publisher publisher1 = Publisher.builder()
                     .name("Publisher1")
                     .emailId("publisher1@gmail.com").build();
-
+            publisherService.createPublisher(publisher1);
 
             Book book1 = Book.builder()
                     .title("Book1")
@@ -193,6 +195,10 @@ public class TableConfig {
                     .returnDate(LocalDate.now())
                     .borrowDate(LocalDate.now().plusDays(3))
                     .bookSet(book1)
+                    .journalSet(journal1)
+                    .magazineSet(magazine3)
+                    .technicalReportSet(technicalReport2)
+                    .thesisSet(thesis1)
                     .member(member1)
                     .build();
 

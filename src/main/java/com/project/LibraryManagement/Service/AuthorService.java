@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorService {
@@ -15,6 +16,10 @@ public class AuthorService {
 
     public List<Author> getAllAuthors() {
         return authorRepository.findAll();
+    }
+
+    public Optional<Author> getAuthorByEmail(String email) {
+        return authorRepository.findByemailId(email);
     }
 
     public List<Book> getAllBooksByAuthorId(String id) {

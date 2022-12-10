@@ -1,6 +1,7 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,7 +44,7 @@ public class Book implements Serializable {//owning side
     @JoinTable(name = "author_book",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Author> authorSet = new HashSet<>();
 
     public void addAuthor(Author author) {
@@ -63,14 +64,14 @@ public class Book implements Serializable {//owning side
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "publisher_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Publisher publisher;
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Location location;
 
     public Book() {
@@ -85,4 +86,5 @@ public class Book implements Serializable {//owning side
         this.publisher = publisher;
         this.location = location;
     }
+
 }

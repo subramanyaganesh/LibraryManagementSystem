@@ -26,6 +26,7 @@ public class Issues {
 
     public Issues() {
     }
+
     @Builder
     public Issues(Date publishDate, Set<Editor> editorSet) {
         this.publishDate = publishDate;
@@ -33,9 +34,6 @@ public class Issues {
     }
 
 
-
-
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -43,8 +41,20 @@ public class Issues {
                     CascadeType.REMOVE
             },
             mappedBy = "issuesSet") //this is the variable name in the owning side
-    private Set<Journal> journals=new HashSet<>();
+    @JsonIgnore
+    private Set<Journal> journals = new HashSet<>();
+    public void addJournal(Journal journal) {
+        this.journals.add(journal);
+        journal.getIssuesSet().add(this);
+    }
 
+    public void removeJournal(long journalsId) {
+        Journal journals = this.journals.stream().filter(t -> t.getDocument_id() == journalsId).findFirst().orElse(null);
+        if (journals != null) {
+            this.journals.remove(journals);
+            journals.getIssuesSet().remove(this);
+        }
+    }
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -52,8 +62,21 @@ public class Issues {
                     CascadeType.REMOVE
             },
             mappedBy = "issuesSet") //this is the variable name in the owning side
-    private Set<Magazine> magazines=new HashSet<>();
+    @JsonIgnore
+    private Set<Magazine> magazines = new HashSet<>();
 
+    public void addMagazine(Magazine magazine) {
+        this.magazines.add(magazine);
+        magazine.getIssuesSet().add(this);
+    }
+
+    public void removeMagazine(long magazineId) {
+        Magazine magazine = this.magazines.stream().filter(t -> t.getDocument_id() == magazineId).findFirst().orElse(null);
+        if (magazine != null) {
+            this.magazines.remove(magazine);
+            magazine.getIssuesSet().remove(this);
+        }
+    }
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -65,8 +88,8 @@ public class Issues {
     @JoinTable(name = "editor_issues",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
-    @JsonIgnore
-    private Set<Editor> editorSet=new HashSet<>();
+   @JsonIgnore
+    private Set<Editor> editorSet = new HashSet<>();
 
     public void addEditor(Editor editor) {
         this.editorSet.add(editor);
@@ -80,13 +103,5 @@ public class Issues {
             editor.getIssues().remove(this);
         }
     }
-
-
-   /* @OneToMany(mappedBy = "issues", fetch = FetchType.LAZY,
-            //this is the variable name of Librarian Object created in Member class
-            cascade = CascadeType.ALL)
-
-    @JsonIgnore
-    private Set<Editor> editorSet;*/
 
 }
