@@ -15,6 +15,8 @@ public interface WriterRepository extends JpaRepository<Writer, Long> {
 
     Optional<Writer> findByemailId(String email);
 
+    Optional<Writer> findByfirstName(String firstName);
+
     @Query(value = "insert into writer (email_id,first_name,last_name,writer_id) values (?,?,?,?)", nativeQuery = true)
     Optional<Writer> saveData(String email_id,String first_name,String last_name,Long writer_id);
 

@@ -33,7 +33,22 @@ public class MagazineService {
         magazineRepository.deleteById(magazine.getDocument_id());
         return new ResponseEntity<>("Successfully Deleted Magazine", HttpStatus.OK);
     }
-
+    public List<Magazine> getSpecificMagazine(String id) {
+        List<Magazine> magazines;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            magazines = List.of(magazineRepository.findById(i).orElse(new Magazine()));
+        } else {
+            magazines = magazineRepository.findBymagazineNameContainingIgnoreCase(id);
+        }
+        if (magazines != null) {
+            return magazines;
+        }
+        throw new IllegalStateException("The Magazine does not exist");
+    }
     public List<Magazine> getAllMagazine() {
         return magazineRepository.findAll();
     }

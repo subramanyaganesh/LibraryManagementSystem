@@ -15,8 +15,8 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     @Query("from Author where id=?1")
     Optional<Author> findbyid(Long id);
 
-    //SELECT * FROM USERS WHERE EMAIL_ADDRESS = ?1
-    //
+    Optional<Author> findByfirstName(String firstName);
+
     @Query(value = "insert  into author (email_id, first_name, last_name, author_id)  values (?, ?, ?, ?)", nativeQuery = true)
     Optional<Author> saveData(String email_id,String first_name,String last_name,Long author_id);
 

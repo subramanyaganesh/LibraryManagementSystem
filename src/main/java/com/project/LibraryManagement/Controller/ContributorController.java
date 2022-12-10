@@ -21,8 +21,8 @@ public class ContributorController {
         return contributorService.getAllContributors();
     }
 
-    @GetMapping(value = {"/getMagazinesByContributorId/{contributorId}"})
-    public List<Magazine> getMagazines(@PathVariable Long contributorId) {
+    @GetMapping(value = {"/getMagazinesByContributor/{contributorId}"})
+    public List<Magazine> getMagazines(@PathVariable String contributorId) {
         return contributorService.getAllMagazinesByContributorId(contributorId);
     }
 

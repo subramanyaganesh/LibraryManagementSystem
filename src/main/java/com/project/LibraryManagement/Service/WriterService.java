@@ -19,9 +19,11 @@ public class WriterService {
     public List<Writer> getAllWriters() {
         return writerRepository.findAll();
     }
+
     public Optional<Writer> getWriterByEmail(String id) {
         return writerRepository.findByemailId(id);
     }
+
     public ResponseEntity<String> createWriter(Writer writer) {
         writerRepository.save(writer);
         return new ResponseEntity<>("Successfully added Writer", HttpStatus.OK);
@@ -35,16 +37,36 @@ public class WriterService {
         return new ResponseEntity<>("Successfully Deleted Writer", HttpStatus.OK);
     }
 
-    public List<Thesis> getAllThesisByWriterId(Long id){
-       Writer writer= writerRepository.findById(id).orElse(null);
-       if (writer!=null){
-           return writer.getThesisSet().stream().toList();
-       }
+    public List<Thesis> getAllThesisByWriterId(String id) {
+        Writer writer;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            writer = writerRepository.findById(i).orElse(null);
+        } else {
+            writer = writerRepository.findByfirstName(id).orElse(null);
+        }
+        if (writer != null) {
+            return writer.getThesisSet().stream().toList();
+        }
         throw new IllegalStateException("The Writer does not exist");
     }
-    public List<TechnicalReport> getAllTechnicalReportByWriterId(Long id){
-        Writer writer= writerRepository.findById(id).orElse(null);
-        if (writer!=null){
+
+    public List<TechnicalReport> getAllTechnicalReportByWriterId(String id) {
+        Writer writer;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            writer = writerRepository.findById(i).orElse(null);
+        } else {
+            writer = writerRepository.findByfirstName(id).orElse(null);
+        }
+
+        if (writer != null) {
             return writer.getTechnicalReportSet().stream().toList();
         }
         throw new IllegalStateException("The Writer does not exist");

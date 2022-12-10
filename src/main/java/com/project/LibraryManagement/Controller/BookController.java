@@ -19,12 +19,21 @@ public class BookController {
     public List<Book> getBookList() {
         return bookService.getAllBooks();
     }
-    @PostMapping(value = {"/addBook","/updateBook"})
+
+    @GetMapping(value = {"/getKeywordBook/{id}"})
+    public List<Book> getBookByIdList(@PathVariable String id) {
+        return bookService.getSpecificBook(id);
+    }
+
+    @PostMapping(value = {"/librarian/addBook","/librarian/updateBook"}
+            /*consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE*/)
     public ResponseEntity<String> addBook(@RequestBody Book book) {
         return bookService.createBook(book);
     }
-    @DeleteMapping(value = {"/deleteBookBy/{bookId}"})
-    public ResponseEntity<String> deleteBook(Long bookId) {
+
+    @DeleteMapping(value = {"/librarian/deleteBookBy/{bookId}"})
+    public ResponseEntity<String> deleteBook(@PathVariable Long bookId) {
         return bookService.deleteBook(bookId);
     }
 

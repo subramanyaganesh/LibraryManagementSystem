@@ -21,7 +21,22 @@ public class JournalService {
     public List<Journal> getAllJournal() {
         return journalRepository.findAll();
     }
-
+    public List<Journal> getSpecificJournal(String id) {
+        List<Journal> journal;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            journal = List.of(journalRepository.findById(i).orElse(new Journal()));
+        } else {
+            journal = journalRepository.findByjournalNameContainingIgnoreCase(id);
+        }
+        if (journal != null) {
+            return journal;
+        }
+        throw new IllegalStateException("The Journal does not exist");
+    }
     public ResponseEntity<String> createJournal(Journal journal) {
         if (publisherService.getPublishersByEmail(journal.getPublisher().getEmailId()).isEmpty())
             publisherService.createPublisher(journal.getPublisher());

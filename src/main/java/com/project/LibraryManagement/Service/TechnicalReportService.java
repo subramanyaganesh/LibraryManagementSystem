@@ -22,7 +22,22 @@ public class TechnicalReportService {
     public List<TechnicalReport> getAllTechnicalReport() {
         return technicalReportRepository.findAll();
     }
-
+    public List<TechnicalReport> getSpecificTechnicalReport(String id) {
+        List<TechnicalReport> technicalReports;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            technicalReports = List.of(technicalReportRepository.findById(i).orElse(new TechnicalReport()));
+        } else {
+            technicalReports = technicalReportRepository.findBytitleContainingIgnoreCase(id);
+        }
+        if (technicalReports != null) {
+            return technicalReports;
+        }
+        throw new IllegalStateException("The TechnicalReport does not exist");
+    }
     public ResponseEntity<String> createTechnicalReport(TechnicalReport technicalReport) {
         if (publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).isEmpty())
             publisherService.createPublisher(technicalReport.getPublisher());

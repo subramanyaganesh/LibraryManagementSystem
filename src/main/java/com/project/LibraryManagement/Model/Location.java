@@ -15,8 +15,6 @@ import java.util.Set;
 @Table(name = "Location")
 public class Location implements Serializable {
     @Id
-    @SequenceGenerator(name = "roomNumber_generator", allocationSize = 1, initialValue = 100)
-    @GeneratedValue(generator = "roomNumber_generator")
     Long roomNumber;
     @Column(name = "shelfNumber", length = 250, nullable = false)
     Long shelfNumber;
@@ -27,10 +25,12 @@ public class Location implements Serializable {
     }
 
     @Builder
-    public Location(Long shelfNumber, Long level) {
+    public Location(Long roomNumber, Long shelfNumber, Long level) {
+        this.roomNumber = roomNumber;
         this.shelfNumber = shelfNumber;
         this.level = level;
     }
+
 
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY,
             //this is the variable name of Librarian Object created in Member class

@@ -18,9 +18,18 @@ public class ContributorService {
     }
 
 
-    public List<Magazine> getAllMagazinesByContributorId(Long id){
-        Contributor contributor= contributorRepository.findById(id).orElse(null);
-        if (contributor!=null){
+    public List<Magazine> getAllMagazinesByContributorId(String id) {
+        Contributor contributor;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            contributor = contributorRepository.findById(i).orElse(null);
+        } else {
+            contributor = contributorRepository.findByfirstName(id).orElse(null);
+        }
+        if (contributor != null) {
             return new ArrayList<>(contributor.getMagazines());
         }
         throw new IllegalStateException("The Writer does not exist");

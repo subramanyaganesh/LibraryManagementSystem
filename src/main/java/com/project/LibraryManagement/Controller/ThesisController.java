@@ -1,9 +1,8 @@
 package com.project.LibraryManagement.Controller;
 
-import com.project.LibraryManagement.Model.Author;
-import com.project.LibraryManagement.Model.Location;
+import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Model.Thesis;
-import com.project.LibraryManagement.Model.Thesis;
+import com.project.LibraryManagement.Service.TechnicalReportService;
 import com.project.LibraryManagement.Service.ThesisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +20,17 @@ public class ThesisController {
     public List<Thesis> getThesisList() {
         return thesisService.getAllThesis();
     }
-
-    @PostMapping(value = {"/addThesis", "/updateThesis"})
+    @GetMapping(value = {"/getKeywordThesis/{id}"})
+    public List<Thesis> getThesisById(@PathVariable String id) {
+        return thesisService.getSpecificThesis(id);
+    }
+    @PostMapping(value = {"/librarian/addThesis", "/librarian/updateThesis"})
     public ResponseEntity<String> addThesis(@RequestBody Thesis thesis) {
         return thesisService.createThesis(thesis);
     }
 
-    @DeleteMapping(value = {"/deleteThesisBy/{ThesisId}"})
-    public ResponseEntity<String> deleteThesis(Long ThesisId) {
+    @DeleteMapping(value = {"/librarian/deleteThesisBy/{ThesisId}"})
+    public ResponseEntity<String> deleteThesis(@PathVariable Long ThesisId) {
         return thesisService.deleteThesis(ThesisId);
     }
 

@@ -40,13 +40,16 @@ public class TableConfig {
     private LibrarianService librarianService;
     @Autowired
     private TransactionDetailsService transactionDetailsService;
-/*    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;*/
+
+    @Autowired
+    private EditorService editorService;
+
 
     @Bean
     CommandLineRunner DefaultCreator() {
         return args -> {
             Location location1 = Location.builder()
+                    .roomNumber(100L)
                     .level(1L)
                     .shelfNumber(8L)
                     .build();
@@ -110,6 +113,12 @@ public class TableConfig {
                     .publisher(publisher1)
                     .build();
             technicalReportService.createTechnicalReport(technicalReport2);
+            Editor editor1 = Editor.builder()
+                    .firstName("editor1firstName")
+                    .lastName("editor1lastName")
+                    .emailId("editor1@gmail.com")
+                    .build();
+
 
             Magazine magazine3 = Magazine.builder()
                     .magazineName("Magazine3")
@@ -117,7 +126,10 @@ public class TableConfig {
                     .publisher(publisher1)
                     .copyNumber(5L)
                     .build();
-            magazine3.addIssue(Issues.builder().publishDate(new Date(1234556)).build());
+            magazine3.addIssue(Issues.builder()
+                    .editorSet(Set.of(editor1))
+                    .publishDate(new Date(1234556))
+                    .build());
             magazine3.addContributor(Contributor.builder().lastName("contributor1lastName").firstName("contributor1firstName").emailId("contributor1@gmail.com")
                     .build());
             magazineService.createMagazine(magazine3);
@@ -177,7 +189,7 @@ public class TableConfig {
                     .build();
             memberService.registerNewMemberInBulk(List.of(member2, member1));
 
-            TransactionDetails transactionDetails= TransactionDetails.builder()
+            TransactionDetails transactionDetails = TransactionDetails.builder()
                     .returnDate(LocalDate.now())
                     .borrowDate(LocalDate.now().plusDays(3))
                     .bookSet(book1)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Entity
 @ToString
 @Table(name = "book")
-public class Book {//owning side
+public class Book implements Serializable {//owning side
 
     @Id
     @SequenceGenerator(name = "document_generator", allocationSize = 1)

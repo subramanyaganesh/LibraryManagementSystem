@@ -25,7 +25,22 @@ public class JournalArticleService {
         journalArticleRepository.save(journalArticle);
         return new ResponseEntity<>("Successfully added JournalArticle", HttpStatus.OK);
     }
-
+    public List<JournalArticle> getSpecificJournalArticle(String id) {
+        List<JournalArticle> journalArticle;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            journalArticle = List.of(journalArticleRepository.findById(i).orElse(new JournalArticle()));
+        } else {
+            journalArticle = journalArticleRepository.findBytitleContainingIgnoreCase(id);
+        }
+        if (journalArticle != null) {
+            return journalArticle;
+        }
+        throw new IllegalStateException("The JournalArticle does not exist");
+    }
     public ResponseEntity<String> deleteJournalArticle(Long id) {
         var journalArticle = journalArticleRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(String.format("JournalArticle not found with ID %d", id)));

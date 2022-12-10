@@ -18,15 +18,18 @@ public class JournalController {
     public List<Journal> getJournalList() {
         return journalService.getAllJournal();
     }
-
-    @PostMapping(value = {"/addJournal", "/updateJournal"})
+    @GetMapping(value = {"/getKeywordJournal/{id}"})
+    public List<Journal> getJournalById(@PathVariable String id) {
+        return journalService.getSpecificJournal(id);
+    }
+    @PostMapping(value = {"/librarian/addJournal", "/librarian/updateJournal"})
     public ResponseEntity<String> addJournal(@RequestBody Journal journal) {
         return journalService.createJournal(journal);
     }
 
-    @DeleteMapping(value = {"/deleteJournalBy/{JournalId}"})
-    public ResponseEntity<String> deleteJournal(Long journalId) {
-        return journalService.deleteJournal(journalId);
+    @DeleteMapping(value = {"/librarian/deleteJournalBy/{JournalId}"})
+    public ResponseEntity<String> deleteJournal(@PathVariable Long JournalId) {
+        return journalService.deleteJournal(JournalId);
     }
 
     @GetMapping(value = {"/getAllEditorsBy/{JournalId}"})

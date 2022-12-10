@@ -20,13 +20,13 @@ public class WriterController {
         return writerService.getAllWriters();
     }
 
-    @GetMapping(value = {"/getAllThesisByWriterId/{writerId}"})
-    public List<Thesis> getThesisByWriterId(@PathVariable("writerId") Long id) {
+    @GetMapping(value = {"/getAllThesisByWriter/{writerId}"})
+    public List<Thesis> getThesisByWriterId(@PathVariable("writerId") String id) {
         return writerService.getAllThesisByWriterId(id);
     }
 
-    @GetMapping(value = {"/getAllTechnicalReportByWriterId/{writerId}"})
-    public List<TechnicalReport> getAllTechnicalReportByWriterId(@PathVariable("writerId") Long id) {
+    @GetMapping(value = {"/getAllTechnicalReportByWriter/{writerId}"})
+    public List<TechnicalReport> getAllTechnicalReportByWriterId(@PathVariable("writerId") String id) {
         return writerService.getAllTechnicalReportByWriterId(id);
     }
 

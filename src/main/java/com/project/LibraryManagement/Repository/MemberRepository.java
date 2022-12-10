@@ -2,6 +2,7 @@ package com.project.LibraryManagement.Repository;
 import com.project.LibraryManagement.Model.Author;
 import com.project.LibraryManagement.Model.Book;
 import com.project.LibraryManagement.Model.Member;
+import com.project.LibraryManagement.Model.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("from Member where id=?1")
     Optional<Member> findbyid(Long id);
 
+    Optional<Member> findByfirstName(String firstName);
 
     @Query("from Member where emailId=?1")
     Optional<Member> findByEmail(String email);

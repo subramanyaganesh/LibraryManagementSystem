@@ -21,12 +21,12 @@ public class EditorController {
     }
 
     @GetMapping(value = {"/getMagazinesByEditorId/{EditorId}"})
-    public List<Magazine> getMagazinesByEditor(@PathVariable Long EditorId) {
+    public List<Magazine> getMagazinesByEditor(@PathVariable String EditorId) {
         return editorService.getAllMagazinesByEditorId(EditorId);
     }
 
     @GetMapping(value = {"/getJournalsByEditorId/{EditorId}"})
-    public List<Journal> getJournalsByEditorId(@PathVariable Long EditorId) {
+    public List<Journal> getJournalsByEditorId(@PathVariable String EditorId) {
         return editorService.getAllJournalsByEditorId(EditorId);
     }
 }

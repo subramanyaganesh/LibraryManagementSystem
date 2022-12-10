@@ -17,6 +17,8 @@ public interface LibrarianRepository extends JpaRepository<Librarian, Long> {
     Optional<Librarian> findbyid(Long id);
     Optional<Librarian> findByemailId(String email);
 
+    Optional<Librarian> findByfirstName(String firstName);
+
     @Query(value = "insert into member(address, email_id, first_name, last_name, password, librarian_id) values (?, ?, ?, ?, ?, ?)", nativeQuery = true)
     Optional<Librarian> saveData(String address, String email_id, String first_name, String last_name, Long password, Long librarian_id);
 

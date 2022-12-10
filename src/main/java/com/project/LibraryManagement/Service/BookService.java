@@ -3,6 +3,7 @@ package com.project.LibraryManagement.Service;
 import com.project.LibraryManagement.Model.Author;
 import com.project.LibraryManagement.Model.Book;
 import com.project.LibraryManagement.Model.Location;
+import com.project.LibraryManagement.Model.Writer;
 import com.project.LibraryManagement.Repository.BookRepository;
 import com.project.LibraryManagement.Repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,26 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public List<Book> getSpecificBook(String id) {
+        List<Book> book;
+        long i = -1L;
+        try {
+            i = Long.parseLong(id);
+        } catch (Exception e) {/*do nothing*/}
+        if (i != -1) {
+            book = List.of(bookRepository.findById(i).orElse(new Book()));
+        } else {
+            book = bookRepository.findBytitleContainingIgnoreCase(id);
+        }
+        if (book != null) {
+            return book;
+        }
+        throw new IllegalStateException("The Book does not exist");
+    }
+
 
     public ResponseEntity<String> createBook(Book book) {
-        if (publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty())
+        if (book.getPublisher() != null && publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty())
             publisherService.createPublisher(book.getPublisher());
         bookRepository.save(book);
         return new ResponseEntity<>("Successfully added Book", HttpStatus.OK);
@@ -45,7 +63,7 @@ public class BookService {
         if (book != null) {
             return book.getLocation();
         }
-        throw new IllegalStateException("The Writer does not exist");
+        throw new IllegalStateException("The Book does not exist");
     }
 
 

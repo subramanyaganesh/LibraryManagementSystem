@@ -1,5 +1,6 @@
 package com.project.LibraryManagement.Controller;
 
+import com.project.LibraryManagement.Model.JournalArticle;
 import com.project.LibraryManagement.Model.Location;
 import com.project.LibraryManagement.Model.TechnicalReport;
 import com.project.LibraryManagement.Service.TechnicalReportService;
@@ -19,13 +20,16 @@ public class TechnicalReportController {
     public List<TechnicalReport> getTechnicalReportList() {
         return technicalReportService.getAllTechnicalReport();
     }
-
-    @PostMapping(value = {"/addTechnicalReport","/updateTechnicalReport"})
+    @GetMapping(value = {"/getKeywordTechnicalReport/{id}"})
+    public List<TechnicalReport> getTechnicalReportById(@PathVariable String id) {
+        return technicalReportService.getSpecificTechnicalReport(id);
+    }
+    @PostMapping(value = {"/librarian/addTechnicalReport","/librarian/updateTechnicalReport"})
     public ResponseEntity<String> addTechnicalReport(@RequestBody TechnicalReport thesis) {
         return technicalReportService.createTechnicalReport(thesis);
     }
-    @DeleteMapping(value = {"/deleteTechnicalReportBy/{TechnicalReportId}"})
-    public ResponseEntity<String> deleteTechnicalReport(Long TechnicalReportId) {
+    @DeleteMapping(value = {"/librarian/deleteTechnicalReportBy/{TechnicalReportId}"})
+    public ResponseEntity<String> deleteTechnicalReport(@PathVariable Long TechnicalReportId) {
         return technicalReportService.deleteTechnicalReport(TechnicalReportId);
     }
     @GetMapping(value = {"/getTechnicalReportLocation/{technicalReportId}"})

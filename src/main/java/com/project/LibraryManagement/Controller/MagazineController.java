@@ -18,12 +18,15 @@ public class MagazineController {
     public List<Magazine> getMagazineList() {
         return magazineService.getAllMagazine();
     }
-
-    @DeleteMapping(value = {"/deleteMagazineBy/{MagazineId}"})
-    public ResponseEntity<String> deleteMagazine(Long MagazineId) {
+    @GetMapping(value = {"/getKeywordMagazine/{id}"})
+    public List<Magazine> getMagazinesById(@PathVariable String id) {
+        return magazineService.getSpecificMagazine(id);
+    }
+    @DeleteMapping(value = {"/librarian/deleteMagazineBy/{MagazineId}"})
+    public ResponseEntity<String> deleteMagazine(@PathVariable Long MagazineId) {
         return magazineService.deleteMagazine(MagazineId);
     }
-    @PostMapping(value = {"/addMagazine","/updateMagazine"})
+    @PostMapping(value = {"/librarian/addMagazine","/librarian/updateMagazine"})
     public ResponseEntity<String> addMagazine(@RequestBody Magazine magazine) {
         return magazineService.createMagazine(magazine);
     }

@@ -54,7 +54,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/librarian/**")
                 .hasRole("ADMIN")
-                .and().httpBasic();
+                .and()
+                .httpBasic()
+                .and();
+        http.csrf().disable();
 
 
     }

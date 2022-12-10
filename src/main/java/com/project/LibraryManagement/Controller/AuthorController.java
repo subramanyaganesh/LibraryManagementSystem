@@ -21,11 +21,11 @@ public class AuthorController {
     }
 
     @GetMapping(value = {"/getAllBooksByAuthorId/{authorId}"})
-    public List<Book> getBooksByAuthorId(@PathVariable("authorId") Long id) {
+    public List<Book> getBooksByAuthorId(@PathVariable("authorId") String id) {
         return authorService.getAllBooksByAuthorId(id);
     }
     @GetMapping(value = {"/getAllJournalArticleBy/{authorId}"})
-    public List<JournalArticle> getJournalArticleByAuthorId(@PathVariable("authorId") Long id) {
+    public List<JournalArticle> getJournalArticleByAuthorId(@PathVariable("authorId") String id) {
         return authorService.getAllJournalsByAuthorId(id);
     }
     

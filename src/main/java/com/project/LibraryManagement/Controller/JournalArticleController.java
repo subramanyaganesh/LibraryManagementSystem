@@ -21,14 +21,17 @@ public class JournalArticleController {
     public List<JournalArticle> getJournalArticleList() {
         return journalArticleService.getAllJournalArticle();
     }
-
-    @PostMapping(value = {"/addJournalArticle", "/updateJournalArticle"})
+    @GetMapping(value = {"/getKeywordJournalArticle/{id}"})
+    public List<JournalArticle> getJournalArticleById(@PathVariable String id) {
+        return journalArticleService.getSpecificJournalArticle(id);
+    }
+    @PostMapping(value = {"/librarian/addJournalArticle", "/librarian/updateJournalArticle"})
     public ResponseEntity<String> addJournalArticle(@RequestBody JournalArticle journalArticle) {
         return journalArticleService.createJournalArticle(journalArticle);
     }
 
-    @DeleteMapping(value = {"/deleteJournalArticleBy/{journalArticleId}"})
-    public ResponseEntity<String> deleteJournalArticle(Long journalArticleId) {
+    @DeleteMapping(value = {"/librarian/deleteJournalArticleBy/{journalArticleId}"})
+    public ResponseEntity<String> deleteJournalArticle(@PathVariable Long journalArticleId) {
         return journalArticleService.deleteJournalArticle(journalArticleId);
     }
 
