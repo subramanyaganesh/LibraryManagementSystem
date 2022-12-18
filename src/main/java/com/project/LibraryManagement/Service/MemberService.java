@@ -1,17 +1,11 @@
 package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.Member;
-
 import com.project.LibraryManagement.Model.Role;
 import com.project.LibraryManagement.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-/*import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +25,9 @@ public class MemberService implements UserDetailsService {
 
     public List<Member> getAllMembers() {
         return repository.findAll();
+    }
+    public Optional<Member> getMemberByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     public ResponseEntity<String> registerNewMember(Member member) {

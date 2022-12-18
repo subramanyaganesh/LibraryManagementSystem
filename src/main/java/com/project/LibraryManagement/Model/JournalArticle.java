@@ -1,6 +1,7 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,8 @@ public class JournalArticle {
 
     public JournalArticle() {
     }
-@Builder
+
+    @Builder
     public JournalArticle(String title, Journal journal) {
         this.title = title;
         this.journal = journal;
@@ -43,8 +45,9 @@ public class JournalArticle {
     @JoinTable(name = "author_Journal",
             joinColumns = {@JoinColumn(name = "journal_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
-    @JsonIgnore
-    private Set<Author> authorSet=new HashSet<>();
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
+    private Set<Author> authorSet = new HashSet<>();
 
     public void addAuthor(Author author) {
         this.authorSet.add(author);
@@ -62,7 +65,8 @@ public class JournalArticle {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "journal_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Journal journal;
 
 

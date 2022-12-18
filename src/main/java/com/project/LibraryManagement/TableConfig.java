@@ -8,11 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +17,8 @@ import java.util.Set;
 public class TableConfig {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private AuthorService authorService;
     @Autowired
     private ThesisService thesisService;
     @Autowired
@@ -36,6 +35,7 @@ public class TableConfig {
     private WriterService writerService;
     @Autowired
     private LocationService locationService;
+
     @Autowired
     private MemberService memberService;
     @Autowired
@@ -62,6 +62,11 @@ public class TableConfig {
                     .firstName("author1firstname")
                     .lastName("author1lastname")
                     .emailId("author1@gmail.com").build();
+            Author author2 = Author.builder()
+                    .firstName("author2firstname")
+                    .lastName("author2lastname")
+                    .emailId("author2@gmail.com").build();
+
             Writer writer1 = Writer.builder()
                     .firstName("writer1firstname")
                     .lastName("writer1lastname")
@@ -144,13 +149,14 @@ public class TableConfig {
                     .journalId("A12")
                     .journalName("journal1Name")
                     .build();
-            journal1.addIssue(Issues.builder().publishDate(new Date(9874543)).build());
+            journal1.addIssue(Issues.builder().editorSet(Set.of(editor1)).publishDate(new Date(9874543)).build());
             journalService.createJournal(journal1);
 
             JournalArticle journalArticle1 = JournalArticle.builder()
                     .journal(journal1)
                     .title("journalArticle1Title")
                     .build();
+            journalArticle1.addAuthor(author2);
             journalArticleService.createJournalArticle(journalArticle1);
 
 

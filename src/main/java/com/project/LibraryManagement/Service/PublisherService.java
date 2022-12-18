@@ -2,6 +2,7 @@ package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.PublisherRepository;
+import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,21 +24,18 @@ public class PublisherService {
     public Optional<Publisher> getPublishersById(Long id) {
         return publisherRepository.findById(id);
     }
+
     public Optional<Publisher> getPublishersByEmail(String id) {
         return publisherRepository.findByemailId(id);
     }
 
-    public ResponseEntity<String> createPublisher(Publisher publisher) {
-        publisherRepository.save(publisher);
-        return new ResponseEntity<>("Successfully added Publisher", HttpStatus.OK);
-    }
-
-    public ResponseEntity<String> deletePublisher(Long id) {
-        var publisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("Publisher not found with ID %d", id)));
-
-        publisherRepository.deleteById(publisher.getPublisherId());
-        return new ResponseEntity<>("Successfully Deleted Publisher", HttpStatus.OK);
+    public ResponseEntity<Publisher> createPublisher(Publisher publisher) {
+        try {
+            Publisher result = publisherRepository.save(publisher);
+            return ResponseHandler.generateResponse("Successfully added publisher!", HttpStatus.CREATED, result, Publisher.class.getSimpleName());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Publisher.class.getSimpleName());
+        }
     }
 
     public List<Book> getAllBooksByPublisherId(Long id) {

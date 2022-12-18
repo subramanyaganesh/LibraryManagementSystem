@@ -1,7 +1,11 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -88,7 +92,7 @@ public class Issues {
     @JoinTable(name = "editor_issues",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
-   @JsonIgnore
+   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Editor> editorSet = new HashSet<>();
 
     public void addEditor(Editor editor) {

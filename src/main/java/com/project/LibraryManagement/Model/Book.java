@@ -1,8 +1,10 @@
 package com.project.LibraryManagement.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,7 +35,7 @@ public class Book implements Serializable {//owning side
 
     @Column(name = "copyNumber", nullable = false,unique = true)
     private Long copyNumber;
-
+    @ToString.Exclude
     @ManyToMany(targetEntity = Author.class,
             fetch = FetchType.LAZY,
             cascade = {
@@ -60,14 +62,14 @@ public class Book implements Serializable {//owning side
         }
     }
 
-
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "publisher_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Publisher publisher;
 
-
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named

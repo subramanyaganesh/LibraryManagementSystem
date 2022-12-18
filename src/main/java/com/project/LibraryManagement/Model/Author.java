@@ -1,7 +1,10 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -35,7 +38,7 @@ public class Author {// this is non-owning side
 
     public Author() {
     }
-
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -46,7 +49,7 @@ public class Author {// this is non-owning side
     @JsonIgnore
     private Set<Book> books = new HashSet<>();
 
-
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,

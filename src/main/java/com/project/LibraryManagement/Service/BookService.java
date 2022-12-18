@@ -1,19 +1,20 @@
 package com.project.LibraryManagement.Service;
 
+
 import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.BookRepository;
+import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
 
 @Service
 public class BookService {
+
     @Autowired
     public BookRepository bookRepository;
     @Autowired
@@ -43,28 +44,60 @@ public class BookService {
     }
 
 
-    public ResponseEntity<String> createBook(Book book) {
-        Optional<Publisher> publisher;
-        Set<Author> authorSet = new HashSet<>();
-        if ((publisher = publisherService.getPublishersByEmail(book.getPublisher().getEmailId())).isEmpty())
-            publisherService.createPublisher(book.getPublisher());
-        else book.setPublisher(publisher.get());
-        book.getAuthorSet().forEach(author -> {
-            Optional<Author> author1;
-            if ((author1 = authorService.getAuthorByEmail(author.getEmailId())).isPresent())
-                authorSet.add(author1.get());
-        });
-        book.setAuthorSet(authorSet);
-        bookRepository.save(book);
-        return new ResponseEntity<>("Successfully added Book", HttpStatus.OK);
+    public ResponseEntity<Object> createBook(Book book) {
+        try {
+            Set<Author> authorSet = new HashSet<>();
+            if (publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(book.getPublisher());
+            book.setPublisher(publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).get());
+            book.getAuthorSet().forEach(author -> {
+                if (authorService.getAuthorByEmail(author.getEmailId()).isEmpty())
+                    authorSet.add(author);
+            });
+            book.setAuthorSet(authorSet);
+            Book result = bookRepository.save(book);
+            return ResponseHandler.generateResponse("Successfully added book!", HttpStatus.CREATED, result, Book.class.getSimpleName());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
+        }
     }
 
-    public ResponseEntity<String> deleteBook(Long id) {
-        var book = bookRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("Book not found with ID %d", id)));
+    public ResponseEntity<Object> updateBook(Book book) {
+        try {
+            Set<Author> authorSet = new HashSet<>();
+            Book specificBook = bookRepository.findById(book.getDocument_id()).orElseThrow(Exception::new);
+            if (publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty()) {
+                publisherService.createPublisher(book.getPublisher());
+            }
+            specificBook.setPublisher(publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).get());
+            specificBook.setEdition(book.getEdition());
+            specificBook.setYear(book.getYear());
+            specificBook.setTitle(book.getTitle());
 
-        bookRepository.deleteById(book.getDocument_id());
-        return new ResponseEntity<>("Successfully Deleted Book", HttpStatus.OK);
+            book.getAuthorSet().forEach(author -> {
+                if (authorService.getAuthorByEmail(author.getEmailId()).isEmpty())
+                    authorSet.add(author);
+            });
+            specificBook.setAuthorSet(authorSet);
+
+            specificBook.setLocation(book.getLocation());
+            specificBook.setCopyNumber(book.getCopyNumber());
+            Book result = bookRepository.save(specificBook);
+            return ResponseHandler.generateResponse("Successfully updated book!", HttpStatus.CREATED, result, "Book");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Book");
+        }
+    }
+
+    public ResponseEntity<Object> deleteBook(Long id) {
+        try {
+            var book = bookRepository.findById(id)
+                    .orElseThrow(Exception::new);
+            bookRepository.deleteById(book.getDocument_id());
+            return ResponseHandler.generateResponse("Successfully Deleted Book!", HttpStatus.OK, "Success!!", "Book");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
+        }
     }
 
     public Location getLocationOfBookBy(Long id) {

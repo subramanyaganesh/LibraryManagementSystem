@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -17,13 +16,13 @@ public class LibrarianController {
     @Autowired
     private LibrarianService librarianService;
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/")
     public String homePage() {
         return "index";
     }
 
-    @GetMapping(value = {"/getLibrarian"})
-    public List<Librarian> getLibrarianList() {
+    @GetMapping(value = {"/getLibrarian1"})
+    public @ResponseBody  List<Librarian> getLibrarianList() {
         return librarianService.getAllLibrarians();
     }
 

@@ -1,12 +1,13 @@
 package com.project.LibraryManagement.Repository;
 
-import com.project.LibraryManagement.Model.*;
+
+import com.project.LibraryManagement.Model.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Date;
 import java.util.Optional;
-
+//here we don't have to add @Repository annotation as JpaRepository has an implementation by simpleJpaRepository which has @Repository
+//this is the default implementation class and has all its methods as transactional
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @Query("from Author where emailId=?1")

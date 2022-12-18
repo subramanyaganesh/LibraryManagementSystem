@@ -2,16 +2,16 @@ package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.MagazineRepository;
+import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class MagazineService {
@@ -19,20 +19,81 @@ public class MagazineService {
     public MagazineRepository magazineRepository;
     @Autowired
     public PublisherService publisherService;
-    public ResponseEntity<String> createMagazine(Magazine magazine) {
-        if (publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).isEmpty())
-            publisherService.createPublisher(magazine.getPublisher());
-        magazineRepository.save(magazine);
-        return new ResponseEntity<>("Successfully added Magazine", HttpStatus.OK);
+    @Autowired
+    public IssuesService issuesService;
+    @Autowired
+    public ContributorService contributorService;
+    public ResponseEntity<Object> createMagazine(Magazine magazine) {
+        Set<Contributor> contributorSet = new HashSet<>();
+        Set<Issues> issuesSet=new HashSet<>();
+        try {
+            if (publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(magazine.getPublisher());
+            magazine.setPublisher(publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).get());
+
+            magazine.getIssuesSet().forEach(issues -> {
+                if (issuesService.getIssueById(issues.getIssueId()).isEmpty())
+                    issuesService.createIssues(issues);
+                issuesSet.add(issues);
+            });
+            magazine.setIssuesSet(issuesSet);
+            magazine.getContributorSet().forEach(contributor -> {
+                if (contributorService.getContributorByEmail(contributor.getEmailId()).isEmpty())
+                    contributorSet.add(contributor);
+            });
+            magazine.setContributorSet(contributorSet);
+
+            Magazine result = magazineRepository.save(magazine);
+            return ResponseHandler.generateResponse("Successfully updated magazine!", HttpStatus.CREATED, result, "magazine");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
+        }
     }
 
-    public ResponseEntity<String> deleteMagazine(Long id) {
+    public ResponseEntity<Object> updateMagazine(Magazine magazine) {
+        Set<Contributor> contributorSet = new HashSet<>();
+        try {
+            Magazine specificBook = magazineRepository.findById(magazine.getDocument_id()).orElseThrow(Exception::new);
+            if (publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(magazine.getPublisher());
+                specificBook.setPublisher(publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).get());
+
+            magazine.getIssuesSet().forEach(issues -> {
+                if (issuesService.getIssueById(issues.getIssueId()).isEmpty())
+                    issuesService.createIssues(issues);
+            });
+            specificBook.setIssuesSet(magazine.getIssuesSet());
+
+            magazine.getContributorSet().forEach(contributor -> {
+                if (contributorService.getContributorByEmail(contributor.getEmailId()).isEmpty())
+                    contributorSet.add(contributor);
+            });
+            specificBook.setContributorSet(contributorSet);
+
+            specificBook.setLocation(magazine.getLocation());
+            specificBook.setCopyNumber(magazine.getCopyNumber());
+            specificBook.setMagazineName(magazine.getMagazineName());
+            specificBook.setDocument_id(magazine.getDocument_id());
+
+            Magazine result = magazineRepository.save(specificBook);
+            return ResponseHandler.generateResponse("Successfully updated magazine!", HttpStatus.CREATED, result, "magazine");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
+        }
+    }
+
+    public ResponseEntity<Object> deleteMagazine(Long id) {
+        try{
         var magazine = magazineRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(String.format("Magazine not found with ID %d", id)));
 
         magazineRepository.deleteById(magazine.getDocument_id());
-        return new ResponseEntity<>("Successfully Deleted Magazine", HttpStatus.OK);
+        return ResponseHandler.generateResponse("Successfully Deleted magazine!", HttpStatus.OK, "Success!!", "magazine");
+    } catch (Exception e) {
+        return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Magazine.class.getSimpleName());
     }
+    }
+
     public List<Magazine> getSpecificMagazine(String id) {
         List<Magazine> magazines;
         long i = -1L;
@@ -49,54 +110,55 @@ public class MagazineService {
         }
         throw new IllegalStateException("The Magazine does not exist");
     }
+
     public List<Magazine> getAllMagazine() {
         return magazineRepository.findAll();
     }
 
-    public List<Contributor> getAllContributorsByMagazineId(Long id){
-       Magazine magazine= magazineRepository.findById(id).orElse(null);
-       if (magazine!=null){
-           return new ArrayList<>(magazine.getContributorSet());
-       }
+    public List<Contributor> getAllContributorsByMagazineId(Long id) {
+        Magazine magazine = magazineRepository.findById(id).orElse(null);
+        if (magazine != null) {
+            return new ArrayList<>(magazine.getContributorSet());
+        }
         throw new IllegalStateException("The Writer does not exist");
     }
 
     //check This
-    public List<Editor> getAllEditorsByMagazineId(Long id){
-        Magazine magazine= magazineRepository.findById(id).orElse(null);
-        if (magazine!=null){
-            Set<Issues> issueSet =magazine.getIssuesSet();
-          return issueSet.stream().map(Issues::getEditorSet)
-                  .collect(ArrayList::new, List::addAll, List::addAll);
+    public List<Editor> getAllEditorsByMagazineId(Long id) {
+        Magazine magazine = magazineRepository.findById(id).orElse(null);
+        if (magazine != null) {
+            Set<Issues> issueSet = magazine.getIssuesSet();
+            return issueSet.stream().map(Issues::getEditorSet)
+                    .collect(ArrayList::new, List::addAll, List::addAll);
 
 
         }
         throw new IllegalStateException("The Writer does not exist");
     }
 
-    public List<Issues> getAllIssuesByMagazineId(Long id){
-        Magazine magazine= magazineRepository.findById(id).orElse(null);
-        if (magazine!=null){
+    public List<Issues> getAllIssuesByMagazineId(Long id) {
+        Magazine magazine = magazineRepository.findById(id).orElse(null);
+        if (magazine != null) {
             return new ArrayList<>(magazine.getIssuesSet());
         }
         throw new IllegalStateException("The Writer does not exist");
     }
 
-    public Location getLocationOfMagazineBy(Long id){
-        Magazine magazine= magazineRepository.findById(id).orElse(null);
-        if (magazine!=null){
+    public Location getLocationOfMagazineBy(Long id) {
+        Magazine magazine = magazineRepository.findById(id).orElse(null);
+        if (magazine != null) {
             return magazine.getLocation();
         }
         throw new IllegalStateException("The Writer does not exist");
     }
-    public Publisher getPublisherByMagazineId(Long id){
-        Magazine magazine= magazineRepository.findById(id).orElse(null);
-        if (magazine!=null){
+
+    public Publisher getPublisherByMagazineId(Long id) {
+        Magazine magazine = magazineRepository.findById(id).orElse(null);
+        if (magazine != null) {
             return magazine.getPublisher();
         }
         throw new IllegalStateException("The Writer does not exist");
     }
-
 
 
 }

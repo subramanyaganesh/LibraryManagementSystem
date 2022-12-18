@@ -1,7 +1,11 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -45,7 +49,8 @@ public class Magazine {
     @JoinTable(name = "Contributor_Magazine",
             joinColumns = {@JoinColumn(name = "magazine_id")},
             inverseJoinColumns = {@JoinColumn(name = "contributor_id")})
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Set<Contributor> contributorSet = new HashSet<>();
 
     public void addContributor(Contributor contributor) {
@@ -70,7 +75,8 @@ public class Magazine {
     @JoinTable(name = "Magazine_issue",
             joinColumns = {@JoinColumn(name = "magazine_id")},
             inverseJoinColumns = {@JoinColumn(name = "issue_id")})
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Set<Issues> issuesSet = new HashSet<>();
 
     public void addIssue(Issues issues) {
@@ -89,12 +95,14 @@ public class Magazine {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "publisher_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Publisher publisher;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Location location;
 }

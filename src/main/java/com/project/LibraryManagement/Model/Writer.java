@@ -31,11 +31,13 @@ public class Writer {
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonIgnore
+    @ToString.Exclude
     private Set<Thesis> thesisSet=new HashSet<>();
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonIgnore
+    @ToString.Exclude
     private Set<TechnicalReport> technicalReportSet;
 
 }

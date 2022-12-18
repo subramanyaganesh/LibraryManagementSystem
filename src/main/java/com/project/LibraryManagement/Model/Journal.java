@@ -1,7 +1,11 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -48,7 +52,8 @@ public class Journal {
     @JoinTable(name = "issues_journal",
             joinColumns = {@JoinColumn(name = "issue_id")},
             inverseJoinColumns = {@JoinColumn(name = "journal_id")})
-    @JsonIgnore
+    @ToString.Exclude
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Issues> issuesSet=new HashSet<>();
 
     public void addIssue(Issues issues) {
@@ -67,18 +72,21 @@ public class Journal {
             //this is the variable name of Librarian Object created in Member class
             cascade = CascadeType.ALL)
     @JsonIgnore
+    @ToString.Exclude
     private Set<JournalArticle> journalArticles;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "publisher_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Publisher publisher;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Location location;
 
 }

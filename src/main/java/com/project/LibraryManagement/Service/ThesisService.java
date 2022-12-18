@@ -1,9 +1,9 @@
 package com.project.LibraryManagement.Service;
 
-import com.project.LibraryManagement.Model.TechnicalReport;
-import com.project.LibraryManagement.Model.Thesis;
 import com.project.LibraryManagement.Model.Location;
+import com.project.LibraryManagement.Model.Thesis;
 import com.project.LibraryManagement.Repository.ThesisRepository;
+import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,22 +42,60 @@ public class ThesisService {
     }
 
     public ResponseEntity<String> createThesis(Thesis thesis) {
-        if (publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).isEmpty())
-            publisherService.createPublisher(thesis.getPublisher());
-        if (writerService.getWriterByEmail(thesis.getWriter().getEmailId()).isEmpty())
-            writerService.createWriter(thesis.getWriter());
-        thesisRepository.save(thesis);
-        return new ResponseEntity<>("Successfully added Thesis", HttpStatus.OK);
+        try {
+            if (publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(thesis.getPublisher());
+            thesis.setPublisher(publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).get());
+
+            if (writerService.getWriterByEmail(thesis.getWriter().getEmailId()).isEmpty())
+                writerService.createWriter(thesis.getWriter());
+            thesis.setWriter(writerService.getWriterByEmail(thesis.getWriter().getEmailId()).get());
+
+            Thesis result = thesisRepository.save(thesis);
+            return ResponseHandler.generateResponse("Successfully added Thesis!", HttpStatus.CREATED, result, Thesis.class.getSimpleName());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Thesis.class.getSimpleName());
+        }
+    }
+
+
+
+    public ResponseEntity<String> updateThesis(Thesis thesis) {
+        try {
+            Thesis specificBook = thesisRepository.findById(thesis.getDocument_id()).orElseThrow(Exception::new);
+            if (publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(thesis.getPublisher());
+            specificBook.setPublisher(publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).get());
+
+            if (writerService.getWriterByEmail(thesis.getWriter().getEmailId()).isEmpty())
+                writerService.createWriter(thesis.getWriter());
+            specificBook.setWriter(writerService.getWriterByEmail(thesis.getWriter().getEmailId()).get());
+            specificBook.setCategory(thesis.getCategory());
+            specificBook.setTitle(thesis.getTitle());
+            specificBook.setYear(thesis.getYear());
+            specificBook.setLocation(thesis.getLocation());
+            specificBook.setCopyNumber(thesis.getCopyNumber());
+
+            Thesis result = thesisRepository.save(specificBook);
+            return ResponseHandler.generateResponse("Successfully updated Thesis!", HttpStatus.CREATED, result, Thesis.class.getSimpleName());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Thesis.class.getSimpleName());
+        }
     }
 
 
     public ResponseEntity<String> deleteThesis(Long id) {
-        var book = thesisRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("Thesis not found with ID %d", id)));
+        try {
+            var book = thesisRepository.findById(id)
+                    .orElseThrow(() -> new IllegalStateException(String.format("Thesis not found with ID %d", id)));
 
-        thesisRepository.deleteById(book.getDocument_id());
-        return new ResponseEntity<>("Successfully Deleted Thesis", HttpStatus.OK);
+            thesisRepository.deleteById(book.getDocument_id());
+            return ResponseHandler.generateResponse("Successfully Deleted Thesis!", HttpStatus.OK, "Success!!", "Thesis");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Thesis.class.getSimpleName());
+        }
     }
+
 
 
     public Location getLocationOfThesisBy(Long id) {

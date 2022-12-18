@@ -1,7 +1,6 @@
 package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.*;
-import com.project.LibraryManagement.Repository.ThesisRepository;
 import com.project.LibraryManagement.Repository.WriterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

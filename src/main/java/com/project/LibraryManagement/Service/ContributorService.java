@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContributorService {
@@ -16,8 +17,13 @@ public class ContributorService {
     public List<Contributor> getAllContributors() {
         return contributorRepository.findAll();
     }
+    public Optional<Contributor> getContributorById(Long id) {
+        return contributorRepository.findbyid(id);
+    }
 
-
+    public Optional<Contributor> getContributorByEmail(String id) {
+        return contributorRepository.findByemailId(id);
+    }
     public List<Magazine> getAllMagazinesByContributorId(String id) {
         Contributor contributor;
         long i = -1L;

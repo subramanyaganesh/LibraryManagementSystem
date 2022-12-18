@@ -6,11 +6,6 @@ import com.project.LibraryManagement.Repository.LibrarianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-/*import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -58,7 +53,7 @@ public class LibrarianService implements UserDetailsService {
         return new ResponseEntity<>("Successfully added Librarian", HttpStatus.OK);
     }
     public ResponseEntity<String> registerNewLibrarianInBulk(List<Librarian> librarianList) {
-        for (com.project.LibraryManagement.Model.Librarian Librarian : librarianList) {
+        for (Librarian Librarian : librarianList) {
             Optional<Librarian> LibrarianOptional =
                     repository.findByemailId(Librarian.getEmailId());
             if (LibrarianOptional.isPresent()) {

@@ -1,9 +1,6 @@
 package com.project.LibraryManagement.Repository;
 
-import com.project.LibraryManagement.Model.Author;
 import com.project.LibraryManagement.Model.Location;
-import com.project.LibraryManagement.Model.Thesis;
-import com.project.LibraryManagement.Model.Writer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

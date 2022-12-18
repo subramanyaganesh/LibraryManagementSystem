@@ -2,12 +2,12 @@ package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.TechnicalReportRepository;
+import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +22,7 @@ public class TechnicalReportService {
     public List<TechnicalReport> getAllTechnicalReport() {
         return technicalReportRepository.findAll();
     }
+
     public List<TechnicalReport> getSpecificTechnicalReport(String id) {
         List<TechnicalReport> technicalReports;
         long i = -1L;
@@ -38,22 +39,59 @@ public class TechnicalReportService {
         }
         throw new IllegalStateException("The TechnicalReport does not exist");
     }
-    public ResponseEntity<String> createTechnicalReport(TechnicalReport technicalReport) {
-        if (publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).isEmpty())
-            publisherService.createPublisher(technicalReport.getPublisher());
-        if (writerService.getWriterByEmail(technicalReport.getWriter().getEmailId()).isEmpty())
-            writerService.createWriter(technicalReport.getWriter());
-        technicalReportRepository.save(technicalReport);
-        return new ResponseEntity<>("Successfully added Book", HttpStatus.OK);
+
+    public ResponseEntity<Object> createTechnicalReport(TechnicalReport technicalReport) {
+        try {
+            if (publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(technicalReport.getPublisher());
+            technicalReport.setPublisher(publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).get());
+
+            if (writerService.getWriterByEmail(technicalReport.getWriter().getEmailId()).isEmpty())
+                writerService.createWriter(technicalReport.getWriter());
+            technicalReport.setWriter(writerService.getWriterByEmail(technicalReport.getWriter().getEmailId()).get());
+
+            TechnicalReport result = technicalReportRepository.save(technicalReport);
+            return ResponseHandler.generateResponse("Successfully added TechnicalReport!", HttpStatus.CREATED, result, TechnicalReport.class.getSimpleName());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, TechnicalReport.class.getSimpleName());
+        }
+    }
+
+    public ResponseEntity<Object> updateTechnicalReport(TechnicalReport technicalReport) {
+        try {
+            TechnicalReport specificBook = technicalReportRepository.findById(technicalReport.getDocument_id()).orElseThrow(Exception::new);
+            if (publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).isEmpty())
+                publisherService.createPublisher(technicalReport.getPublisher());
+            specificBook.setPublisher(publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).get());
+
+            if (writerService.getWriterByEmail(technicalReport.getWriter().getEmailId()).isEmpty())
+                writerService.createWriter(technicalReport.getWriter());
+            specificBook.setWriter(writerService.getWriterByEmail(technicalReport.getWriter().getEmailId()).get());
+
+            specificBook.setLocation(technicalReport.getLocation());
+            specificBook.setCopyNumber(technicalReport.getCopyNumber());
+            specificBook.setDocument_id(technicalReport.getDocument_id());
+            specificBook.setCategory(technicalReport.getCategory());
+            specificBook.setYear(technicalReport.getYear());
+            specificBook.setTitle(technicalReport.getTitle());
+            TechnicalReport result = technicalReportRepository.save(specificBook);
+            return ResponseHandler.generateResponse("Successfully added TechnicalReport!", HttpStatus.CREATED, result, TechnicalReport.class.getSimpleName());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, TechnicalReport.class.getSimpleName());
+        }
     }
 
 
     public ResponseEntity<String> deleteTechnicalReport(Long id) {
-        var book = technicalReportRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("TechnicalReport not found with ID %d", id)));
+        try {
+            var book = technicalReportRepository.findById(id)
+                    .orElseThrow(() -> new IllegalStateException(String.format("TechnicalReport not found with ID %d", id)));
 
-        technicalReportRepository.deleteById(book.getDocument_id());
-        return new ResponseEntity<>("Successfully Deleted TechnicalReport", HttpStatus.OK);
+            technicalReportRepository.deleteById(book.getDocument_id());
+            return ResponseHandler.generateResponse("Successfully Deleted TechnicalReport!", HttpStatus.OK, "Success!!", "TechnicalReport");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, TechnicalReport.class.getSimpleName());
+        }
     }
 
 

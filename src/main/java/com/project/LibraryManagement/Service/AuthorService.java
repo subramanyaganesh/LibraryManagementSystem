@@ -1,6 +1,9 @@
 package com.project.LibraryManagement.Service;
 
-import com.project.LibraryManagement.Model.*;
+
+import com.project.LibraryManagement.Model.Author;
+import com.project.LibraryManagement.Model.Book;
+import com.project.LibraryManagement.Model.JournalArticle;
 import com.project.LibraryManagement.Repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

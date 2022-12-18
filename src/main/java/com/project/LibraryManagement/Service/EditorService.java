@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -20,6 +21,9 @@ public class EditorService {
         return editorRepository.findAll();
     }
 
+    public Optional<Editor> getAuthorByEmail(String email) {
+        return editorRepository.findByemailId(email);
+    }
     public List<Magazine> getAllMagazinesByEditorId(String id) {
         Editor editor;
         long i = -1L;
