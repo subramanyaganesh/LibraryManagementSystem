@@ -21,18 +21,18 @@ public class LibrarianController {
         return "index";
     }
 
-    @GetMapping(value = {"/getLibrarian1"})
+    @GetMapping(value = {"/librarian/getLibrarian1"})
     public @ResponseBody  List<Librarian> getLibrarianList() {
         return librarianService.getAllLibrarians();
     }
 
 
-    @PostMapping(value = {"/postLibrarians"})
+    @PostMapping(value = {"/librarian/postLibrarians"})
     public ResponseEntity<String> putLibrarian(@RequestBody Librarian librarians) {
         return librarianService.registerNewLibrarian(librarians);
     }
 
-    @DeleteMapping(value = "/deleteLibrarians/{librarian_id}")
+    @DeleteMapping(value = "/librarian/deleteLibrarians/{librarian_id}")
     public void deleteLibrarian(@PathVariable("librarian_id") Long id) {
         librarianService.deleteLibrarian(id);
     }

@@ -1,8 +1,10 @@
 package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.Librarian;
+import com.project.LibraryManagement.Model.Magazine;
 import com.project.LibraryManagement.Model.Role;
 import com.project.LibraryManagement.Repository.LibrarianRepository;
+import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,14 +46,19 @@ public class LibrarianService implements UserDetailsService {
     }
 
     public ResponseEntity<String> registerNewLibrarian(Librarian Librarian) {
-        Optional<Librarian> LibrarianOptional =
-                repository.findByemailId(Librarian.getEmailId());
-        if (LibrarianOptional.isPresent()) {
-            throw new IllegalStateException("The Librarian is already existing");
+        try {
+            Optional<Librarian> LibrarianOptional =
+                    repository.findByemailId(Librarian.getEmailId());
+            if (LibrarianOptional.isPresent()) {
+                throw new IllegalStateException("The Librarian is already existing");
+            }
+            Librarian result = repository.save(Librarian);
+            return ResponseHandler.generateResponse("Successfully added Librarian!", HttpStatus.CREATED, result, "Librarian");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Librarian");
         }
-        repository.save(Librarian);
-        return new ResponseEntity<>("Successfully added Librarian", HttpStatus.OK);
     }
+
     public ResponseEntity<String> registerNewLibrarianInBulk(List<Librarian> librarianList) {
         for (Librarian Librarian : librarianList) {
             Optional<Librarian> LibrarianOptional =
@@ -60,17 +67,20 @@ public class LibrarianService implements UserDetailsService {
                 throw new IllegalStateException("The Librarian is already existing");
             }
             repository.save(Librarian);
-            continue;
         }
         return new ResponseEntity<>("Successfully added All Librarian", HttpStatus.OK);
     }
 
     public ResponseEntity<String> deleteLibrarian(Long Librarian_id) {
-        if (!repository.existsById(Librarian_id)) {
-            throw new IllegalStateException("This Librarian id " + Librarian_id + " Does not exist");
+        try {
+            if (!repository.existsById(Librarian_id)) {
+                throw new IllegalStateException("This Librarian id " + Librarian_id + " Does not exist");
+            }
+            repository.deleteById(Librarian_id);
+            return ResponseHandler.generateResponse("Successfully Deleted Librarian!", HttpStatus.OK, "Success!!", "Librarian");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Librarian.class.getSimpleName());
         }
-        repository.deleteById(Librarian_id);
-        return new ResponseEntity<>("Successfully deleted Librarian", HttpStatus.OK);
     }
 
 }

@@ -23,9 +23,10 @@ public class MagazineService {
     public IssuesService issuesService;
     @Autowired
     public ContributorService contributorService;
+
     public ResponseEntity<Object> createMagazine(Magazine magazine) {
         Set<Contributor> contributorSet = new HashSet<>();
-        Set<Issues> issuesSet=new HashSet<>();
+        Set<Issues> issuesSet = new HashSet<>();
         try {
             if (publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(magazine.getPublisher());
@@ -56,7 +57,7 @@ public class MagazineService {
             Magazine specificBook = magazineRepository.findById(magazine.getDocument_id()).orElseThrow(Exception::new);
             if (publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(magazine.getPublisher());
-                specificBook.setPublisher(publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).get());
+            specificBook.setPublisher(publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).get());
 
             magazine.getIssuesSet().forEach(issues -> {
                 if (issuesService.getIssueById(issues.getIssueId()).isEmpty())
@@ -83,15 +84,15 @@ public class MagazineService {
     }
 
     public ResponseEntity<Object> deleteMagazine(Long id) {
-        try{
-        var magazine = magazineRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(String.format("Magazine not found with ID %d", id)));
+        try {
+            var magazine = magazineRepository.findById(id)
+                    .orElseThrow(() -> new IllegalStateException(String.format("Magazine not found with ID %d", id)));
 
-        magazineRepository.deleteById(magazine.getDocument_id());
-        return ResponseHandler.generateResponse("Successfully Deleted magazine!", HttpStatus.OK, "Success!!", "magazine");
-    } catch (Exception e) {
-        return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Magazine.class.getSimpleName());
-    }
+            magazineRepository.deleteById(magazine.getDocument_id());
+            return ResponseHandler.generateResponse("Successfully Deleted magazine!", HttpStatus.OK, "Success!!", "magazine");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Magazine.class.getSimpleName());
+        }
     }
 
     public List<Magazine> getSpecificMagazine(String id) {
