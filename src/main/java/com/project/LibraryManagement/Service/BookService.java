@@ -65,7 +65,7 @@ public class BookService {
     public ResponseEntity<Object> updateBook(Book book) {
         try {
             Set<Author> authorSet = new HashSet<>();
-            Book specificBook = bookRepository.findById(book.getDocument_id()).orElseThrow(Exception::new);
+            Book specificBook = bookRepository.findById(book.getDocument_id()).orElseThrow(()->new Exception("Book Not Found"));
             if (publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty()) {
                 publisherService.createPublisher(book.getPublisher());
             }
@@ -92,7 +92,7 @@ public class BookService {
     public ResponseEntity<Object> deleteBook(Long id) {
         try {
             var book = bookRepository.findById(id)
-                    .orElseThrow(Exception::new);
+                    .orElseThrow(()->new Exception("Book Not Found"));
             bookRepository.deleteById(book.getDocument_id());
             return ResponseHandler.generateResponse("Successfully Deleted Book!", HttpStatus.OK, "Success!!", "Book");
         } catch (Exception e) {

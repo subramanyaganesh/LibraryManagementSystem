@@ -54,7 +54,7 @@ public class MagazineService {
     public ResponseEntity<Object> updateMagazine(Magazine magazine) {
         Set<Contributor> contributorSet = new HashSet<>();
         try {
-            Magazine specificBook = magazineRepository.findById(magazine.getDocument_id()).orElseThrow(Exception::new);
+            Magazine specificBook = magazineRepository.findById(magazine.getDocument_id()).orElseThrow(()->new Exception("Magazine Not Found"));
             if (publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(magazine.getPublisher());
             specificBook.setPublisher(publisherService.getPublishersByEmail(magazine.getPublisher().getEmailId()).get());

@@ -27,12 +27,16 @@ public class LibrarianController {
     }
 
 
-    @PostMapping(value = {"/librarian/postLibrarians"})
-    public ResponseEntity<String> putLibrarian(@RequestBody Librarian librarians) {
+    @PostMapping(value = {"/librarian/postLibrarian"})
+    public ResponseEntity<String> postLibrarian(@RequestBody Librarian librarians) {
         return librarianService.registerNewLibrarian(librarians);
     }
+    @PutMapping(value = {"/librarian/updateLibrarian"})
+    public ResponseEntity<String> putLibrarian(@RequestBody Librarian librarians) {
+        return librarianService.updateLibrarian(librarians);
+    }
 
-    @DeleteMapping(value = "/librarian/deleteLibrarians/{librarian_id}")
+    @DeleteMapping(value = "/librarian/deleteLibrarian/{librarian_id}")
     public void deleteLibrarian(@PathVariable("librarian_id") Long id) {
         librarianService.deleteLibrarian(id);
     }

@@ -59,7 +59,7 @@ public class TechnicalReportService {
 
     public ResponseEntity<Object> updateTechnicalReport(TechnicalReport technicalReport) {
         try {
-            TechnicalReport specificBook = technicalReportRepository.findById(technicalReport.getDocument_id()).orElseThrow(Exception::new);
+            TechnicalReport specificBook = technicalReportRepository.findById(technicalReport.getDocument_id()).orElseThrow(()->new Exception("TechnicalReport Not Found"));
             if (publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(technicalReport.getPublisher());
             specificBook.setPublisher(publisherService.getPublishersByEmail(technicalReport.getPublisher().getEmailId()).get());

@@ -1,6 +1,7 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +24,8 @@ public class Librarian {
     Long librarianId;
     @Column(name = "address", length = 250, nullable = false)
     String address;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Transient //this property ensures that the password is not stored in the database
     @Column(name = "password", length = 250, nullable = false)
     String password;
     @Column(name = "firstName", length = 250, nullable = false)

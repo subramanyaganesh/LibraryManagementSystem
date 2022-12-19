@@ -61,7 +61,7 @@ public class IssuesService {
     public ResponseEntity<Object> updateIssues(Issues issues) {
         try {
             Set<Editor> editorSet = new HashSet<>();
-            Issues specificBook = issuesRepository.findbyid(issues.getIssueId()).orElseThrow(Exception::new);
+            Issues specificBook = issuesRepository.findbyid(issues.getIssueId()).orElseThrow(()->new Exception("Issue Not Found"));
 
             issues.getEditorSet().forEach(editor -> {
                 if (editorService.getAuthorByEmail(editor.getEmailId()).isEmpty())

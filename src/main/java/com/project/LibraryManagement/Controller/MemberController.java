@@ -22,9 +22,13 @@ public class MemberController {
     }
 
 
-    @PostMapping(value = {"/librarian/postMembers"})
-    public ResponseEntity<String> putMember(@RequestBody Member member) {
+    @PostMapping(value = {"/librarian/postMember"})
+    public ResponseEntity<String> postMember(@RequestBody Member member) {
         return memberService.registerNewMember(member);
+    }
+    @PutMapping(value = {"/librarian/updateMember"})
+    public ResponseEntity<String> putMember(@RequestBody Member member) {
+        return memberService.updateMember(member);
     }
 
     @DeleteMapping(value = "/librarian/deleteMembers/{member_id}")

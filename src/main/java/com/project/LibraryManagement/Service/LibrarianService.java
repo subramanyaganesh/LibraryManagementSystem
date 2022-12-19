@@ -1,7 +1,6 @@
 package com.project.LibraryManagement.Service;
 
 import com.project.LibraryManagement.Model.Librarian;
-import com.project.LibraryManagement.Model.Magazine;
 import com.project.LibraryManagement.Model.Role;
 import com.project.LibraryManagement.Repository.LibrarianRepository;
 import com.project.LibraryManagement.ResponseHandler;
@@ -44,16 +43,32 @@ public class LibrarianService implements UserDetailsService {
     public List<Librarian> getAllLibrarians() {
         return repository.findAll();
     }
+    public Optional<Librarian> getLibrarianByEmail(String email) {
+        return repository.findByemailId(email);
+    }
 
-    public ResponseEntity<String> registerNewLibrarian(Librarian Librarian) {
+    public ResponseEntity<String> registerNewLibrarian(Librarian librarian) {
         try {
             Optional<Librarian> LibrarianOptional =
-                    repository.findByemailId(Librarian.getEmailId());
+                    repository.findByemailId(librarian.getEmailId());
             if (LibrarianOptional.isPresent()) {
                 throw new IllegalStateException("The Librarian is already existing");
             }
-            Librarian result = repository.save(Librarian);
+            Librarian result = repository.save(librarian);
             return ResponseHandler.generateResponse("Successfully added Librarian!", HttpStatus.CREATED, result, "Librarian");
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Librarian");
+        }
+    }
+    public ResponseEntity<String> updateLibrarian(Librarian librarian) {
+        try {
+            Librarian librarian1 = repository.findByemailId(librarian.getEmailId()).orElseThrow(()->new Exception("Librarian Not Found"));
+            librarian1.setAddress(librarian.getAddress());
+            librarian1.setFirstName(librarian.getFirstName());
+            librarian1.setLastName(librarian.getLastName());
+            librarian1.setPassword(librarian.getPassword());
+            Librarian result = repository.save(librarian1);
+            return ResponseHandler.generateResponse("Successfully updated Librarian!", HttpStatus.CREATED, result, "Librarian");
         } catch (Exception e) {
             return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Librarian");
         }

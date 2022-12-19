@@ -62,7 +62,7 @@ public class ThesisService {
 
     public ResponseEntity<String> updateThesis(Thesis thesis) {
         try {
-            Thesis specificBook = thesisRepository.findById(thesis.getDocument_id()).orElseThrow(Exception::new);
+            Thesis specificBook = thesisRepository.findById(thesis.getDocument_id()).orElseThrow(()->new Exception("Thesis Not Found"));
             if (publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(thesis.getPublisher());
             specificBook.setPublisher(publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).get());

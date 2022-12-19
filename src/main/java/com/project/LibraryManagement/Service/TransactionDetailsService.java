@@ -102,7 +102,7 @@ public class TransactionDetailsService {
 
             member = memberService.getMemberByEmail(transactionDetails.getMember().getEmailId());
             if (member.isPresent()) {
-                TransactionDetails specificBook = transactionDetailsRepository.findBymember(member.get()).orElseThrow(Exception::new);
+                TransactionDetails specificBook = transactionDetailsRepository.findBymember(member.get()).orElseThrow(()->new Exception("Transaction Not Found"));
                 specificBook.setMember(member.get());
 
                 if (!(book = bookService.getSpecificBook(transactionDetails.getBookSet().getDocument_id().toString())).isEmpty())

@@ -1,6 +1,7 @@
 package com.project.LibraryManagement.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Member {
     @GeneratedValue(generator = "librarian_generator")
     Long memberId;
     String address;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient
     @Column(name = "password", length = 250, nullable = false)
     String password;
@@ -36,7 +37,7 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "librarian_id", nullable = false)
 //this name here specifies how the pk for the one side has to be named
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Librarian librarian;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

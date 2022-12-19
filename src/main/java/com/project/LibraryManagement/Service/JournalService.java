@@ -62,7 +62,7 @@ public class JournalService {
 
     public ResponseEntity<Object> updateJournal(Journal journal) {
         try {
-            Journal specificBook = journalRepository.findById(journal.getDocument_id()).orElseThrow(Exception::new);
+            Journal specificBook = journalRepository.findById(journal.getDocument_id()).orElseThrow(()->new Exception("Journal Not Found"));
             if (publisherService.getPublishersByEmail(journal.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(journal.getPublisher());
             specificBook.setPublisher(publisherService.getPublishersByEmail(journal.getPublisher().getEmailId()).get());

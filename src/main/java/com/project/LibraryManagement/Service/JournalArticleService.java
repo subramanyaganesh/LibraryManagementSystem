@@ -44,7 +44,7 @@ public class JournalArticleService {
     public ResponseEntity<Object> updateJournalArticle(JournalArticle journalArticle) {
         Set<Author> authorSet = new HashSet<>();
         try {
-            JournalArticle specificBook = journalArticleRepository.findById(journalArticle.getDocument_id()).orElseThrow(Exception::new);
+            JournalArticle specificBook = journalArticleRepository.findById(journalArticle.getDocument_id()).orElseThrow(()->new Exception("Journal Article Not Found"));
             journalArticle.getAuthorSet().forEach(author -> {
                 if (authorService.getAuthorByEmail(author.getEmailId()).isEmpty())
                     authorSet.add(author);
