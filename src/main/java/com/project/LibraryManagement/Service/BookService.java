@@ -5,6 +5,7 @@ import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.BookRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -57,15 +58,17 @@ public class BookService {
             book.setAuthorSet(authorSet);
             Book result = bookRepository.save(book);
             return ResponseHandler.generateResponse("Successfully added book!", HttpStatus.CREATED, result, Book.class.getSimpleName());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
         }
     }
 
     public ResponseEntity<Object> updateBook(Book book) {
         try {
             Set<Author> authorSet = new HashSet<>();
-            Book specificBook = bookRepository.findById(book.getDocument_id()).orElseThrow(()->new Exception("Book Not Found"));
+            Book specificBook = bookRepository.findById(book.getDocument_id()).orElseThrow(() -> new Exception("Book Not Found"));
             if (publisherService.getPublishersByEmail(book.getPublisher().getEmailId()).isEmpty()) {
                 publisherService.createPublisher(book.getPublisher());
             }
@@ -84,19 +87,23 @@ public class BookService {
             specificBook.setCopyNumber(book.getCopyNumber());
             Book result = bookRepository.save(specificBook);
             return ResponseHandler.generateResponse("Successfully updated book!", HttpStatus.CREATED, result, "Book");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Book");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
         }
     }
 
     public ResponseEntity<Object> deleteBook(Long id) {
         try {
             var book = bookRepository.findById(id)
-                    .orElseThrow(()->new Exception("Book Not Found"));
+                    .orElseThrow(() -> new DataIntegrityViolationException("Book Not Found"));
             bookRepository.deleteById(book.getDocument_id());
             return ResponseHandler.generateResponse("Successfully Deleted Book!", HttpStatus.OK, "Success!!", "Book");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Librarian.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Book.class.getSimpleName());
         }
     }
 

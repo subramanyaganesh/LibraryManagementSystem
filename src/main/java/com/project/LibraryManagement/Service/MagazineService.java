@@ -4,6 +4,7 @@ import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.MagazineRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -46,8 +47,10 @@ public class MagazineService {
 
             Magazine result = magazineRepository.save(magazine);
             return ResponseHandler.generateResponse("Successfully updated magazine!", HttpStatus.CREATED, result, "magazine");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "magazine");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
         }
     }
 
@@ -78,8 +81,10 @@ public class MagazineService {
 
             Magazine result = magazineRepository.save(specificBook);
             return ResponseHandler.generateResponse("Successfully updated magazine!", HttpStatus.CREATED, result, "magazine");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "magazine");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
         }
     }
 
@@ -90,8 +95,10 @@ public class MagazineService {
 
             magazineRepository.deleteById(magazine.getDocument_id());
             return ResponseHandler.generateResponse("Successfully Deleted magazine!", HttpStatus.OK, "Success!!", "magazine");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "magazine");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Magazine.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "magazine");
         }
     }
 

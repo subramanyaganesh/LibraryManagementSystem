@@ -4,6 +4,7 @@ import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.JournalRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -55,14 +56,16 @@ public class JournalService {
             journal.setIssuesSet(journal.getIssuesSet());
             Journal result = journalRepository.save(journal);
             return ResponseHandler.generateResponse("Successfully added Journal!", HttpStatus.CREATED, result, "JournalArticle");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         }
     }
 
     public ResponseEntity<Object> updateJournal(Journal journal) {
         try {
-            Journal specificBook = journalRepository.findById(journal.getDocument_id()).orElseThrow(()->new Exception("Journal Not Found"));
+            Journal specificBook = journalRepository.findById(journal.getDocument_id()).orElseThrow(() -> new Exception("Journal Not Found"));
             if (publisherService.getPublishersByEmail(journal.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(journal.getPublisher());
             specificBook.setPublisher(publisherService.getPublishersByEmail(journal.getPublisher().getEmailId()).get());
@@ -74,15 +77,17 @@ public class JournalService {
             specificBook.setCopyNumber(journal.getCopyNumber());
 
             journal.getIssuesSet().forEach(issues -> {
-                if (issuesService.getIssueById(issues.getIssueId()).isEmpty()){
+                if (issuesService.getIssueById(issues.getIssueId()).isEmpty()) {
                     issuesService.createIssues(issues);
                 }
             });
             specificBook.setIssuesSet(journal.getIssuesSet());
             Journal result = journalRepository.save(specificBook);
             return ResponseHandler.generateResponse("Successfully updated Journal!", HttpStatus.CREATED, result, "JournalArticle");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         }
     }
 
@@ -93,8 +98,10 @@ public class JournalService {
 
             journalRepository.deleteById(journal.getDocument_id());
             return ResponseHandler.generateResponse("Successfully Deleted Journal!", HttpStatus.OK, "Success!!", "Journal");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Journal.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         }
     }
 

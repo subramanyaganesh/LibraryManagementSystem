@@ -4,6 +4,7 @@ import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.IssuesRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -52,8 +53,10 @@ public class IssuesService {
             issues.setEditorSet(editorSet);
             Issues result = issuesRepository.save(issues);
             return ResponseHandler.generateResponse("Successfully added Issues!", HttpStatus.CREATED, result, Issues.class.getSimpleName());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
         }
 
     }
@@ -61,7 +64,7 @@ public class IssuesService {
     public ResponseEntity<Object> updateIssues(Issues issues) {
         try {
             Set<Editor> editorSet = new HashSet<>();
-            Issues specificBook = issuesRepository.findbyid(issues.getIssueId()).orElseThrow(()->new Exception("Issue Not Found"));
+            Issues specificBook = issuesRepository.findbyid(issues.getIssueId()).orElseThrow(() -> new Exception("Issue Not Found"));
 
             issues.getEditorSet().forEach(editor -> {
                 if (editorService.getAuthorByEmail(editor.getEmailId()).isEmpty())
@@ -74,8 +77,10 @@ public class IssuesService {
             specificBook.setMagazines(issues.getMagazines());
             Issues result = issuesRepository.save(specificBook);
             return ResponseHandler.generateResponse("Successfully added Issues!", HttpStatus.CREATED, result, Issues.class.getSimpleName());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
         }
 
     }
@@ -88,8 +93,10 @@ public class IssuesService {
 
             issuesRepository.deleteById(Issues.getIssueId());
             return ResponseHandler.generateResponse("Successfully Deleted Issues!", HttpStatus.OK, "Success!!", "Issues");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Issues.class.getSimpleName());
         }
     }
 }

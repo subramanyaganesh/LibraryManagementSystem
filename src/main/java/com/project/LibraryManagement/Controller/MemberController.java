@@ -33,8 +33,8 @@ public class MemberController {
     }
 
     @DeleteMapping(value = "/librarian/deleteMembers/{member_id}")
-    public void deleteMember(@PathVariable("member_id") Long id) {
-        memberService.deleteMember(id);
+    public ResponseEntity<Object> deleteMember(@PathVariable("member_id") Long id) {
+        return memberService.deleteMember(id);
     }
 
 

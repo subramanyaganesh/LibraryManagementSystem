@@ -6,6 +6,7 @@ import com.project.LibraryManagement.Model.Role;
 import com.project.LibraryManagement.Repository.MemberRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,8 +51,10 @@ public class MemberService implements UserDetailsService {
 
             Member result = repository.save(member);
             return ResponseHandler.generateResponse("Successfully added Member!", HttpStatus.CREATED, result, "Member");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "member");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Member");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "member");
         }
     }
     public ResponseEntity<Object> updateMember(Member member) {
@@ -69,8 +72,10 @@ public class MemberService implements UserDetailsService {
             member1.setRoles(member.getRoles());
             Member result = repository.save(member1);
             return ResponseHandler.generateResponse("Successfully updated Member!", HttpStatus.CREATED, result, "Member");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "member");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Member");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "member");
         }
     }
 
@@ -95,8 +100,10 @@ public class MemberService implements UserDetailsService {
             }
             repository.deleteById(member_id);
             return ResponseHandler.generateResponse("Successfully Deleted Member!", HttpStatus.OK, "Success!!", "Member");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "member");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Member.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "member");
         }
     }
 

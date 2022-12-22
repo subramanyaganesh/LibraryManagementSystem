@@ -4,7 +4,11 @@ import com.project.LibraryManagement.Model.Librarian;
 import com.project.LibraryManagement.Model.Role;
 import com.project.LibraryManagement.Repository.LibrarianRepository;
 import com.project.LibraryManagement.ResponseHandler;
+import org.postgresql.util.PSQLException;
+import org.postgresql.util.ServerErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +48,7 @@ public class LibrarianService implements UserDetailsService {
     public List<Librarian> getAllLibrarians() {
         return repository.findAll();
     }
+
     public Optional<Librarian> getLibrarianByEmail(String email) {
         return repository.findByemailId(email);
     }
@@ -60,9 +66,10 @@ public class LibrarianService implements UserDetailsService {
             return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Librarian");
         }
     }
+
     public ResponseEntity<Object> updateLibrarian(Librarian librarian) {
         try {
-            Librarian librarian1 = repository.findByemailId(librarian.getEmailId()).orElseThrow(()->new Exception("Librarian Not Found"));
+            Librarian librarian1 = repository.findByemailId(librarian.getEmailId()).orElseThrow(() -> new Exception("Librarian Not Found"));
             librarian1.setAddress(librarian.getAddress());
             librarian1.setFirstName(librarian.getFirstName());
             librarian1.setLastName(librarian.getLastName());
@@ -89,12 +96,14 @@ public class LibrarianService implements UserDetailsService {
     public ResponseEntity<Object> deleteLibrarian(Long Librarian_id) {
         try {
             if (!repository.existsById(Librarian_id)) {
-                throw new IllegalStateException("This Librarian id " + Librarian_id + " Does not exist");
+                throw new DataIntegrityViolationException("This Librarian id " + Librarian_id + " Does not exist");
             }
             repository.deleteById(Librarian_id);
             return ResponseHandler.generateResponse("Successfully Deleted Librarian!", HttpStatus.OK, "Success!!", "Librarian");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, Librarian.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Librarian.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Librarian.class.getSimpleName());
         }
     }
 

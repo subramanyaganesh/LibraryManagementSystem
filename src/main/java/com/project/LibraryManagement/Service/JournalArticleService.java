@@ -4,6 +4,7 @@ import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.JournalArticleRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,10 @@ public class JournalArticleService {
             journalArticle.setJournal(journalService.getSpecificJournal(journalArticle.getJournal().getJournalName()).get(0));
             JournalArticle result = journalArticleRepository.save(journalArticle);
             return ResponseHandler.generateResponse("Successfully added JournalArticle!", HttpStatus.CREATED, result,"JournalArticle");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         }
     }
 
@@ -58,8 +61,10 @@ public class JournalArticleService {
             specificBook.setTitle(journalArticle.getTitle());
             JournalArticle result = journalArticleRepository.save(specificBook);
             return ResponseHandler.generateResponse("Successfully updated JournalArticle!", HttpStatus.CREATED, result, "JournalArticle");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "JournalArticle");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         }
     }
 
@@ -87,8 +92,10 @@ public class JournalArticleService {
 
             journalArticleRepository.deleteById(journalArticle.getDocument_id());
             return ResponseHandler.generateResponse("Successfully Deleted JournalArticle !", HttpStatus.OK, "Success!!", "JournalArticle");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, JournalArticle.class.getSimpleName());
         }
     }
 

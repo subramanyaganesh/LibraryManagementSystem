@@ -38,8 +38,8 @@ public class LibrarianController {
     }
 
     @DeleteMapping(value = "/librarian/deleteLibrarian/{librarian_id}")
-    public void deleteLibrarian(@PathVariable("librarian_id") Long id) {
-        librarianService.deleteLibrarian(id);
+    public ResponseEntity<Object>  deleteLibrarian(@PathVariable("librarian_id") Long id) {
+        return librarianService.deleteLibrarian(id);
     }
 
 }

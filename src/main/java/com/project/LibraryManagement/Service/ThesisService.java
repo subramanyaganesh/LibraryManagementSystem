@@ -5,6 +5,7 @@ import com.project.LibraryManagement.Model.Thesis;
 import com.project.LibraryManagement.Repository.ThesisRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,10 @@ public class ThesisService {
 
             Thesis result = thesisRepository.save(thesis);
             return ResponseHandler.generateResponse("Successfully added Thesis!", HttpStatus.CREATED, result, Thesis.class.getSimpleName());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "Thesis");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Thesis.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Thesis");
         }
     }
 
@@ -78,8 +81,10 @@ public class ThesisService {
 
             Thesis result = thesisRepository.save(specificBook);
             return ResponseHandler.generateResponse("Successfully updated Thesis!", HttpStatus.CREATED, result, Thesis.class.getSimpleName());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "Thesis");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Thesis.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Thesis");
         }
     }
 
@@ -91,8 +96,10 @@ public class ThesisService {
 
             thesisRepository.deleteById(book.getDocument_id());
             return ResponseHandler.generateResponse("Successfully Deleted Thesis!", HttpStatus.OK, "Success!!", "Thesis");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "Thesis");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Thesis.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Thesis");
         }
     }
 

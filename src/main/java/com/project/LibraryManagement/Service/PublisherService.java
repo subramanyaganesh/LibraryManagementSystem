@@ -4,6 +4,7 @@ import com.project.LibraryManagement.Model.*;
 import com.project.LibraryManagement.Repository.PublisherRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,10 @@ public class PublisherService {
         try {
             Publisher result = publisherRepository.save(publisher);
             return ResponseHandler.generateResponse("Successfully added publisher!", HttpStatus.CREATED, result, Publisher.class.getSimpleName());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "Publisher");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, Publisher.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Publisher");
         }
     }
 

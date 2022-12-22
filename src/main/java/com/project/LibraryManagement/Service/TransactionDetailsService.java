@@ -5,6 +5,7 @@ import com.project.LibraryManagement.Repository.MemberRepository;
 import com.project.LibraryManagement.Repository.TransactionDetailsRepository;
 import com.project.LibraryManagement.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -85,8 +86,10 @@ public class TransactionDetailsService {
 
             TransactionDetails result = transactionDetailsRepository.save(transactionDetails);
             return ResponseHandler.generateResponse("Successfully added transaction!", HttpStatus.CREATED, result, "TransactionDetails");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
         }
     }
 
@@ -102,7 +105,7 @@ public class TransactionDetailsService {
 
             member = memberService.getMemberByEmail(transactionDetails.getMember().getEmailId());
             if (member.isPresent()) {
-                TransactionDetails specificBook = transactionDetailsRepository.findBymember(member.get()).orElseThrow(()->new Exception("Transaction Not Found"));
+                TransactionDetails specificBook = transactionDetailsRepository.findBymember(member.get()).orElseThrow(() -> new Exception("Transaction Not Found"));
                 specificBook.setMember(member.get());
 
                 if (!(book = bookService.getSpecificBook(transactionDetails.getBookSet().getDocument_id().toString())).isEmpty())
@@ -123,8 +126,10 @@ public class TransactionDetailsService {
                 TransactionDetails result = transactionDetailsRepository.save(specificBook);
                 return ResponseHandler.generateResponse("Successfully added transaction!", HttpStatus.CREATED, result, "TransactionDetails");
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
         }
         return null;
     }
@@ -136,8 +141,10 @@ public class TransactionDetailsService {
 
             transactionDetailsRepository.deleteById(transactionDetails.getTransaction_id());
             return ResponseHandler.generateResponse("Successfully Deleted TransactionDetails!", HttpStatus.OK, "Success!!", "TransactionDetails");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseHandler.generateResponse("The exception is :: " + e.getMostSpecificCause(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, TransactionDetails.class.getSimpleName());
+            return ResponseHandler.generateResponse("The exception is :: " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "TransactionDetails");
         }
     }
 
