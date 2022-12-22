@@ -41,7 +41,7 @@ public class ThesisService {
         return thesisRepository.findAll();
     }
 
-    public ResponseEntity<String> createThesis(Thesis thesis) {
+    public ResponseEntity<Object> createThesis(Thesis thesis) {
         try {
             if (publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).isEmpty())
                 publisherService.createPublisher(thesis.getPublisher());
@@ -60,7 +60,7 @@ public class ThesisService {
 
 
 
-    public ResponseEntity<String> updateThesis(Thesis thesis) {
+    public ResponseEntity<Object> updateThesis(Thesis thesis) {
         try {
             Thesis specificBook = thesisRepository.findById(thesis.getDocument_id()).orElseThrow(()->new Exception("Thesis Not Found"));
             if (publisherService.getPublishersByEmail(thesis.getPublisher().getEmailId()).isEmpty())
@@ -84,7 +84,7 @@ public class ThesisService {
     }
 
 
-    public ResponseEntity<String> deleteThesis(Long id) {
+    public ResponseEntity<Object> deleteThesis(Long id) {
         try {
             var book = thesisRepository.findById(id)
                     .orElseThrow(() -> new IllegalStateException(String.format("Thesis not found with ID %d", id)));

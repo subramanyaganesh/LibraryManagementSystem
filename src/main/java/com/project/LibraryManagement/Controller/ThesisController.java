@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin
 public class ThesisController {
 
     @Autowired
@@ -30,20 +31,20 @@ public class ThesisController {
     @PostMapping(value = {"/librarian/addThesis"},
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addThesis(@RequestBody Thesis thesis) {
+    public ResponseEntity<Object> addThesis(@RequestBody Thesis thesis) {
         return thesisService.createThesis(thesis);
     }
 
     @PutMapping(value = {"/librarian/updateThesis"},
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateThesis(@RequestBody Thesis thesis) {
+    public ResponseEntity<Object> updateThesis(@RequestBody Thesis thesis) {
         return thesisService.updateThesis(thesis);
     }
 
 
     @DeleteMapping(value = {"/librarian/deleteThesisBy/{ThesisId}"})
-    public ResponseEntity<String> deleteThesis(@PathVariable Long ThesisId) {
+    public ResponseEntity<Object> deleteThesis(@PathVariable Long ThesisId) {
         return thesisService.deleteThesis(ThesisId);
     }
 

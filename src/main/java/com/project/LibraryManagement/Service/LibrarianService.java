@@ -47,7 +47,7 @@ public class LibrarianService implements UserDetailsService {
         return repository.findByemailId(email);
     }
 
-    public ResponseEntity<String> registerNewLibrarian(Librarian librarian) {
+    public ResponseEntity<Object> registerNewLibrarian(Librarian librarian) {
         try {
             Optional<Librarian> LibrarianOptional =
                     repository.findByemailId(librarian.getEmailId());
@@ -60,7 +60,7 @@ public class LibrarianService implements UserDetailsService {
             return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Librarian");
         }
     }
-    public ResponseEntity<String> updateLibrarian(Librarian librarian) {
+    public ResponseEntity<Object> updateLibrarian(Librarian librarian) {
         try {
             Librarian librarian1 = repository.findByemailId(librarian.getEmailId()).orElseThrow(()->new Exception("Librarian Not Found"));
             librarian1.setAddress(librarian.getAddress());
@@ -86,7 +86,7 @@ public class LibrarianService implements UserDetailsService {
         return new ResponseEntity<>("Successfully added All Librarian", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> deleteLibrarian(Long Librarian_id) {
+    public ResponseEntity<Object> deleteLibrarian(Long Librarian_id) {
         try {
             if (!repository.existsById(Librarian_id)) {
                 throw new IllegalStateException("This Librarian id " + Librarian_id + " Does not exist");

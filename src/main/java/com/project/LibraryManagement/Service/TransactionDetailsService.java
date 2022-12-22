@@ -51,7 +51,7 @@ public class TransactionDetailsService {
         return null;
     }
 
-    public ResponseEntity<String> createTransactionDetails(TransactionDetails transactionDetails) {
+    public ResponseEntity<Object> createTransactionDetails(TransactionDetails transactionDetails) {
         try {
             Optional<Member> member;
             List<Book> book;
@@ -90,7 +90,7 @@ public class TransactionDetailsService {
         }
     }
 
-    public ResponseEntity<String> updateTransactionDetails(TransactionDetails transactionDetails) {
+    public ResponseEntity<Object> updateTransactionDetails(TransactionDetails transactionDetails) {
         try {
 
             Optional<Member> member;
@@ -129,7 +129,7 @@ public class TransactionDetailsService {
         return null;
     }
 
-    public ResponseEntity<String> deleteTransactionDetails(Long id) {
+    public ResponseEntity<Object> deleteTransactionDetails(Long id) {
         try {
             var transactionDetails = transactionDetailsRepository.findById(id)
                     .orElseThrow(() -> new IllegalStateException(String.format("TransactionDetails not found with ID %d", id)));

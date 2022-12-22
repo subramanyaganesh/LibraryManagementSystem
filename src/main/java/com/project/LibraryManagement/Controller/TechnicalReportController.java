@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin
 public class TechnicalReportController {
 
     @Autowired
@@ -41,7 +42,7 @@ public class TechnicalReportController {
     }
 
     @DeleteMapping(value = {"/librarian/deleteTechnicalReportBy/{TechnicalReportId}"})
-    public ResponseEntity<String> deleteTechnicalReport(@PathVariable Long TechnicalReportId) {
+    public ResponseEntity<Object> deleteTechnicalReport(@PathVariable Long TechnicalReportId) {
         return technicalReportService.deleteTechnicalReport(TechnicalReportId);
     }
 

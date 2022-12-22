@@ -29,7 +29,7 @@ public class PublisherService {
         return publisherRepository.findByemailId(id);
     }
 
-    public ResponseEntity<Publisher> createPublisher(Publisher publisher) {
+    public ResponseEntity<Object> createPublisher(Publisher publisher) {
         try {
             Publisher result = publisherRepository.save(publisher);
             return ResponseHandler.generateResponse("Successfully added publisher!", HttpStatus.CREATED, result, Publisher.class.getSimpleName());

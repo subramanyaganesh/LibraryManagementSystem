@@ -82,7 +82,7 @@ public class TechnicalReportService {
     }
 
 
-    public ResponseEntity<String> deleteTechnicalReport(Long id) {
+    public ResponseEntity<Object> deleteTechnicalReport(Long id) {
         try {
             var book = technicalReportRepository.findById(id)
                     .orElseThrow(() -> new IllegalStateException(String.format("TechnicalReport not found with ID %d", id)));

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin
 public class TransactionController {
 
     @Autowired
@@ -34,18 +35,18 @@ public class TransactionController {
     @PostMapping(value = {"/librarian/addTransaction"},
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addTransaction(@RequestBody TransactionDetails transactionDetails) {
+    public ResponseEntity<Object> addTransaction(@RequestBody TransactionDetails transactionDetails) {
         return transactionDetailsService.createTransactionDetails(transactionDetails);
     }
     @PutMapping(value = {"/librarian/updateTransaction"},
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateTransaction(@RequestBody TransactionDetails transactionDetails) {
+    public ResponseEntity<Object> updateTransaction(@RequestBody TransactionDetails transactionDetails) {
         return transactionDetailsService.updateTransactionDetails(transactionDetails);
     }
 
     @DeleteMapping(value = {"/librarian/deleteTransactionDetailsBy/{transactionDetailsId}"})
-    public ResponseEntity<String> deleteTransaction(@PathVariable Long transactionDetailsId) {
+    public ResponseEntity<Object> deleteTransaction(@PathVariable Long transactionDetailsId) {
         return transactionDetailsService.deleteTransactionDetails(transactionDetailsId);
     }
 

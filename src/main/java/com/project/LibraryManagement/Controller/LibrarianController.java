@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin
 public class LibrarianController {
 
 
@@ -28,11 +29,11 @@ public class LibrarianController {
 
 
     @PostMapping(value = {"/librarian/postLibrarian"})
-    public ResponseEntity<String> postLibrarian(@RequestBody Librarian librarians) {
+    public ResponseEntity<Object> postLibrarian(@RequestBody Librarian librarians) {
         return librarianService.registerNewLibrarian(librarians);
     }
     @PutMapping(value = {"/librarian/updateLibrarian"})
-    public ResponseEntity<String> putLibrarian(@RequestBody Librarian librarians) {
+    public ResponseEntity<Object> putLibrarian(@RequestBody Librarian librarians) {
         return librarianService.updateLibrarian(librarians);
     }
 

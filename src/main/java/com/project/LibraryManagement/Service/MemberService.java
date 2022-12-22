@@ -36,7 +36,7 @@ public class MemberService implements UserDetailsService {
         return repository.findByEmail(email);
     }
 
-    public ResponseEntity<String> registerNewMember(Member member) {
+    public ResponseEntity<Object> registerNewMember(Member member) {
         try {
             Optional<Librarian> librarian;
             Optional<Member> memberOptional =
@@ -54,7 +54,7 @@ public class MemberService implements UserDetailsService {
             return ResponseHandler.generateResponse("The exception is " + e.getLocalizedMessage(), HttpStatus.BAD_REQUEST, null, "Member");
         }
     }
-    public ResponseEntity<String> updateMember(Member member) {
+    public ResponseEntity<Object> updateMember(Member member) {
         try {
             Optional<Librarian> librarian;
             Member member1 = repository.findByEmail(member.getEmailId()).orElseThrow(()->new Exception("Member not Found"));
@@ -88,7 +88,7 @@ public class MemberService implements UserDetailsService {
 
     }
 
-    public ResponseEntity<String> deleteMember(Long member_id) {
+    public ResponseEntity<Object> deleteMember(Long member_id) {
         try {
             if (!repository.existsById(member_id)) {
                 throw new IllegalStateException("This member id " + member_id + " Does not exist");
