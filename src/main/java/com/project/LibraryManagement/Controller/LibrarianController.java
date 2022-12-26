@@ -26,6 +26,10 @@ public class LibrarianController {
     public @ResponseBody  List<Librarian> getLibrarianList() {
         return librarianService.getAllLibrarians();
     }
+    @GetMapping(value = {"/librarian/getAllLibrarianEmail"})
+    public @ResponseBody  List<String> getLibrarianEmailList() {
+        return librarianService.getAllLibrarianEmail();
+    }
 
 
     @PostMapping(value = {"/librarian/postLibrarian"})

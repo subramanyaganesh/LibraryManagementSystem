@@ -48,6 +48,10 @@ public class LibrarianService implements UserDetailsService {
     public List<Librarian> getAllLibrarians() {
         return repository.findAll();
     }
+    public List<String> getAllLibrarianEmail() {
+        return repository.findAllEmail();
+    }
+
 
     public Optional<Librarian> getLibrarianByEmail(String email) {
         return repository.findByemailId(email);
