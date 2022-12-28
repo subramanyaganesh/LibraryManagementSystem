@@ -19,6 +19,10 @@ public class PublisherController {
     public @ResponseBody List<Publisher> getPublisherList() {
         return publisherService.getAllPublishers();
     }
+    @GetMapping(value = {"/getPublishersEmail"})
+    public @ResponseBody List<String> getPublisherEmailList() {
+        return publisherService.getAllPublishersEmail();
+    }
 
     @GetMapping(value = {"/getAllBooksBy1/{publisherId}"})
     public @ResponseBody List<Book> getBooksByWriterId(@PathVariable("publisherId") Long id) {

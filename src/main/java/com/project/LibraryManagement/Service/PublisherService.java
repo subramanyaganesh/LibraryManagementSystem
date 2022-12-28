@@ -21,6 +21,9 @@ public class PublisherService {
     public List<Publisher> getAllPublishers() {
         return publisherRepository.findAll();
     }
+    public List<String> getAllPublishersEmail() {
+        return publisherRepository.findAllEmail();
+    }
 
     public Optional<Publisher> getPublishersById(Long id) {
         return publisherRepository.findById(id);
