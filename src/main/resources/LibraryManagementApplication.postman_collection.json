@@ -1,0 +1,1884 @@
+{
+	"info": {
+		"_postman_id": "7e7eab29-c7b8-42ba-97b5-e2b80e2d68e0",
+		"name": "LibraryManagementApplication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23096857"
+	},
+	"item": [
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "GetAllBooks",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "user",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "member@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getBooks1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getBooks1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBook",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"document_id\":\"2\",\n\"title\":\"trsdzsdfd\",\n\"edition\":\"16th edition\",\n\"year\":\"349578\",\n\"authorSet\":[{\n  \"firstName\":\"autho7firstname\",\n  \"lastName\":\"author7lastname\",\n  \"emailId\":\"author7@gmail.com\"\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publisher7\",\n                \"emailId\": \"publisher1@gmail.com\"\n            },\n\"copyNumber\":\"95\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateBook",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateBook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteBook",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteBookBy/10",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteBookBy",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetKeywordBook",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "user",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "member@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getKeywordBook1/t",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getKeywordBook1",
+								"t"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addBook",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"title\":\"Book4\",\n\"edition\":\"10th edition\",\n\"year\":\"34578\",\n\"authorSet\":[{\n  \"firstName\":\"autho2firstname\",\n  \"lastName\":\"author2lastname\",\n  \"emailId\":\"author7@gmail.com\"\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publisher\",\n                \"emailId\": \"publisher1@gmail.com\"\n            },\n\"copyNumber\":\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addBook",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addBook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Thesis",
+			"item": [
+				{
+					"name": "GetAllThesis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getThesis1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getThesis1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetThesisbyWriterI",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getAllThesisByWriter/200",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getAllThesisByWriter",
+								"200"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetThesisbyWriter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getAllThesisByWriter/writer1firstname",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getAllThesisByWriter",
+								"writer1firstname"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetKeywordThesis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getKeywordThesis/the",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getKeywordThesis",
+								"the"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteThesis",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteThesisBy/11",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteThesisBy",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateThesis",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"document_id\":3,\n\"title\":\"technicalReport8\",\n\"category\":\"maths\",\n\"year\":\"34578\",\n\"writer\":{\n  \"firstName\":\"autho2firstname\",\n  \"lastName\":\"author2lastname\",\n  \"emailId\":\"author7@gmail.com\"\n},\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publisher7\",\n                \"emailId\": \"publisher1@gmail.com\"\n            },\n\"copyNumber\":\"11\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateThesis",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateThesis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addThesis",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"title\":\"sdjhv\",\n\"category\":\"maskhjbvths\",\n\"year\":\"98765\",\n\"writer\":{\n  \"firstName\":\"autho7firstname\",\n  \"lastName\":\"author8lastname\",\n  \"emailId\":\"author9@gmail.com\"\n},\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publisher7\",\n                \"emailId\": \"publisher1@gmail.com\"\n            },\n\"copyNumber\":\"501\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addThesis",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addThesis"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TechnicalReport",
+			"item": [
+				{
+					"name": "GetAllTechnicalReport",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getTechnicalReport1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getTechnicalReport1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetKeywordTechnicalReport",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getKeywordTechnicalReport/technicalRep",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getKeywordTechnicalReport",
+								"technicalRep"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTechnicalReport",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteTechnicalReportBy/12",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteTechnicalReportBy",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTechnicalReport",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"document_id\":4,\n\"title\":\"skfjbvj\",\n\"category\":\"maths\",\n\"year\":\"34578\",\n\"writer\":{\n  \"firstName\":\"autho2firstname\",\n  \"lastName\":\"author2lastname\",\n  \"emailId\":\"author7@gmail.com\"\n},\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publisher7\",\n                \"emailId\": \"publisher1@gmail.com\"\n            },\n\"copyNumber\":\"450\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateTechnicalReport",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateTechnicalReport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTechnicalReport",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"title\":\"technicalReport8\",\n\"category\":\"maths\",\n\"year\":\"34578\",\n\"writer\":{\n  \"firstName\":\"autho2firstname\",\n  \"lastName\":\"author2lastname\",\n  \"emailId\":\"author7@gmail.com\"\n},\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publisher7\",\n                \"emailId\": \"publisher1@gmail.com\"\n            },\n\"copyNumber\":\"40\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addTechnicalReport",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addTechnicalReport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Magazines",
+			"item": [
+				{
+					"name": "GetAllMaganines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getMagazines1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getMagazines1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllMaganinesByContributor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getMagazinesByContributor/contributor1firstName",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getMagazinesByContributor",
+								"contributor1firstName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllMaganinesByIssues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getAllMagazinesByIssueId/6",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getAllMagazinesByIssueId",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEditorByMagazineId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getMagazinesByEditor/1100",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getMagazinesByEditor",
+								"1100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetKeywordMagazines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getKeywordMagazine/Magaz",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getKeywordMagazine",
+								"Magaz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMagazine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteMagazineBy/14",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteMagazineBy",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateMagazine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"document_id\":6,\n\"magazineName\":\"trsdzd\",\n\"publisher\":{\n    \"name\": \"publisher9\",\n    \"emailId\": \"publisher9@gmail.com\"\n    },\n\"contributorSet\":[{\n  \"firstName\":\"contri2firstname\",\n  \"lastName\":\"contri2lastname\",\n  \"emailId\":\"contri@gmail.com\"\n}],\n\"issuesSet\":[{\n  \"publishDate\":\"678098\",\n  \"editorSet\":[{\n      \"firstName\":\"author2firstname\",\n        \"lastName\":\"author2lastname\",\n        \"emailId\":\"author6@gmail.com\"\n    }]\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"copyNumber\":\"45\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateMagazine",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateMagazine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addMagazine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"magazineName\":\"yrd\",\n\"publisher\":{\n    \"name\": \"publisher9\",\n    \"emailId\": \"publisher9@gmail.com\"\n    },\n\"contributorSet\":[{\n  \"firstName\":\"contri2firstname\",\n  \"lastName\":\"contri2lastname\",\n  \"emailId\":\"contri@gmail.com\"\n}],\n\"issuesSet\":[{\n  \"publishDate\":\"987654\",\n  \"editorSet\":[{\n      \"firstName\":\"author5firstname\",\n        \"lastName\":\"author5lastname\",\n        \"emailId\":\"author6@gmail.com\"\n    }]\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"copyNumber\":\"88\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addMagazine",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addMagazine"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "GetTransactionDetails",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/getTransactionByEmail1/member@gmail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"getTransactionByEmail1",
+								"member@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTransaction",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteTransactionDetailsBy/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteTransactionDetailsBy",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTransaction",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"borrowDate\": \"2022-12-21\",\n    \"returnDate\": \"2022-12-18\",\n    \"member\": {\n        \"emailId\": \"kiran@gmail.com\"\n    },\n    \"bookSet\": {\n        \"document_id\": 10\n    },\n    \"journalSet\": {\n        \"document_id\": 16\n    },\n    \"magazineSet\": {\n        \"document_id\": 18\n    },\n    \"technicalReportSet\": {\n        \"document_id\": 12\n    },\n    \"thesisSet\": {\n        \"document_id\": 11\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateTransaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateTransaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTransaction",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"borrowDate\": \"2022-12-21\",\n    \"returnDate\": \"2022-12-18\",\n    \"member\": {\n        \"emailId\": \"kiran@gmail.com\"\n    },\n    \"bookSet\": {\n        \"document_id\": 10\n    },\n    \"journalSet\": {\n        \"document_id\": 16\n    },\n    \"magazineSet\": {\n        \"document_id\": 14\n    },\n    \"technicalReportSet\": {\n        \"document_id\": 12\n    },\n    \"thesisSet\": {\n        \"document_id\": 11\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addTransaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addTransaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "GetAuthors",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getAuthors",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getAuthors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBookByAuthor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getAllBooksByAuthorId/100",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getAllBooksByAuthorId",
+								"100"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Journals",
+			"item": [
+				{
+					"name": "GetAllJournals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getJournal1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getJournal1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllJournalsByIssues Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getAllJournalsByIssuesId/8",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getAllJournalsByIssuesId",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetKeywordJournal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getKeywordJournal/jou",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getKeywordJournal",
+								"jou"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteJournal",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteJournalBy/17",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteJournalBy",
+								"17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddJournal",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"journalName\":\"asbdfgv\",\n\"journalId\":\"sofjbtuv\",\n\"issuesSet\":[{\n  \"publishDate\":\"678098\",\n  \"editorSet\":[{\n      \"firstName\":\"author2firstname\",\n        \"lastName\":\"author2lastname\",\n        \"emailId\":\"author7@gmail.com\"\n    }]\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publi7\",\n                \"emailId\": \"publie@gmail.com\"\n            },\n\"copyNumber\":\"278\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addJournal",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addJournal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateJournal",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"document_id\": 8,\n\"journalName\":\"sfbs\",\n\"journalId\":\"sfb\",\n\"issuesSet\":[{\n  \"publishDate\":\"678098\",\n  \"editorSet\":[{\n      \"firstName\":\"author2firstname\",\n        \"lastName\":\"author2lastname\",\n        \"emailId\":\"author6@gmail.com\"\n    }]\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"srfgsd\",\n                \"emailId\": \"sfg@gmail.com\"\n            },\n\"copyNumber\":\"8\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateJournal",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateJournal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JournalArticle",
+			"item": [
+				{
+					"name": "GetAllJournalArticles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getJournalArticle1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getJournalArticle1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetKeywordJournalArticle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getKeywordJournalArticle/journalArticle1Ti",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getKeywordJournalArticle",
+								"journalArticle1Ti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteJournalArticle",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/deleteJournalArticleBy/19",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteJournalArticleBy",
+								"19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddJournalArticle",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"title\":\"journalArticle2Title\",\n\"authorSet\":[{\n  \"firstName\":\"autho4firstname\",\n  \"lastName\":\"author4lastname\",\n  \"emailId\":\"author7@gmail.com\"\n}],\n\n\"journal\":{\n        \"journalName\": \"sfbs\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addJournalArticle",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addJournalArticle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateJournalArticle",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"document_id\":\"9\",\n\"title\":\"mnr\",\n\"authorSet\":[{\n  \"firstName\":\"autho4firstname\",\n  \"lastName\":\"author4lastname\",\n  \"emailId\":\"author7@gmail.com\"\n}],\n\n\"journal\":{\n\"journalName\":\"bcd\",\n\"journalId\":\"zsdfbszdfb\",\n\"issuesSet\":[{\n  \"publishDate\":\"678098\",\n  \"editorSet\":[{\n      \"firstName\":\"author2firstname\",\n        \"lastName\":\"author2lastname\",\n        \"emailId\":\"author7@gmail.com\"\n    }]\n}],\n\"location\":{\n                \"roomNumber\": 100,\n                \"level\": \"1\",\n                \"shelfNumber\": 8\n            },\n\"publisher\":{\n                \"name\": \"publi7\",\n                \"emailId\": \"publie@gmail.com\"\n            },\n\"copyNumber\":\"77\"\n}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateJournalArticle",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateJournalArticle"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Issues",
+			"item": [
+				{
+					"name": "GetIssues",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "user",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "member@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/getIssues1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"getIssues1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateIssues",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"issueId\":\"10\",\n\"publishDate\":\"9876789\",\n\n\"editorSet\":[{\n  \"firstName\":\"autho2firstname\",\n  \"lastName\":\"author2lastname\",\n  \"emailId\":\"author7@gmail.com\"\n}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateIssue",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateIssue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddIssues",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"publishDate\":\"45687654\",\n\n\"editorSet\":[{\n  \"firstName\":\"autho2firstname\",\n  \"lastName\":\"author2lastname\",\n  \"emailId\":\"author7@gmail.com\"\n}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/addIssue",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"addIssue"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Member",
+			"item": [
+				{
+					"name": "GetMembers",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/getMembers1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"getMembers1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"address\":\"55 S state st\",\n\"firstName\":\"member3firstName\",\n\"lastName\":\"member3lastName\",\n\"emailId\":\"member3@gmail.com\",\n\"librarian\":{\n    \"emailId\":\"admin@admin.com\"\n}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/postMember",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"postMember"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMember",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"address\":\"5khjhbjbkhj S state st\",\n\"firstName\":\"ksjdbvbhsd\",\n\"lastName\":\"skfjbvsfkjn\",\n\"emailId\":\"member3@gmail.com\",\n\"password\":\"pppdv\",\n\"librarian\":{\n    \"emailId\":\"admin@admin.com\"\n}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateMember",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateMember"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMember",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/deleteLibrarian/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteLibrarian",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Librarian",
+			"item": [
+				{
+					"name": "GetAllLibrarian",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8089/librarian/getLibrarian1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"getLibrarian1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddLibrarian",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"address\":\"55 S state st\",\n\"firstName\":\"member3firstName\",\n\"lastName\":\"member3lastName\",\n\"emailId\":\"member3@gmail.com\",\n\"password\":\"admins\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/postLibrarian",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"postLibrarian"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateLibrarian",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"address\":\"5khjhbjbkhj S state st\",\n\"firstName\":\"ksjdbvbhsd\",\n\"lastName\":\"skfjbvsfkjn\",\n\"emailId\":\"member3@gmail.com\",\n\"password\":\"pppdv\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/updateLibrarian",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"updateLibrarian"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteLibrarian",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@admin.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8089/librarian/deleteLibrarian/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"librarian",
+								"deleteLibrarian",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetWriters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8089/getWriters1",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"getWriters1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPublishers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8089/getPublishers",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"getPublishers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEditors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8089/getEditors",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"getEditors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetContributors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8089/getContributors",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"getContributors"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
